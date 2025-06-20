@@ -1,0 +1,72 @@
+Crie um aplicativo Android (APK) simples e leve, que funcione totalmente offline, com a seguinte proposta:
+
+🧠 Objetivo do App:
+Permitir que o usuário monte um óculos por meio de uma sequência de perguntas, e ao final, visualizar os preços da lente filtrada, com base nos dados de uma planilha local chamada PRECIFICAÇÃO.xlsx.
+
+🔄 Lógica de Fluxo:
+Tela inicial:
+Vamos montar o óculos? → botão "Começar"
+
+O app deve fazer perguntas interativas, uma de cada vez, e aplicar filtros na base de dados a cada resposta:
+
+É incolor? → Sim / Não → filtra a coluna INCOLOR
+
+Tem antirreflexo? → Sim / Não → filtra a coluna ANTIREFLEXO
+
+É fotosensível? → Sim / Não → filtra a coluna FOTOSENSÍVEL
+
+Tem blue cut? → Sim / Não → filtra a coluna BLUE CUT
+
+Qual a faixa de grau? → opções baseadas na coluna MEDIDAS
+
+Qual a espessura? → opções da coluna ESP
+
+Após a sequência de perguntas, exibir:
+
+Essas são as lentes disponíveis para a configuração: (coluna NOME)
+
+💳 Resultado (Cards de Preço):
+Para cada opção encontrada, exibir cards elegantes e bem visualizados com os seguintes campos:
+
+PREÇO A VISTA
+
+PARCELA EM 3X (JUROS)
+
+PARCELA EM 6X (JUROS)
+
+PARCELA EM 10X (JUROS)
+
+(Opcional: valor total em cada opção, se disponível)
+
+📁 Base de Dados (Planilha Embutida):
+A planilha PRECIFICAÇÃO.xlsx será incluída dentro do APK e deve ser carregada localmente.
+
+O app deve ler os dados em tempo real e aplicar os filtros com base nas respostas do usuário.
+
+Os nomes das colunas devem ser respeitados, como:
+INCOLOR, ANTIREFLEXO, FOTOSENSÍVEL, BLUE CUT, MEDIDAS, ESP, NOME, PREÇO A VISTA, PARCELA EM 3X (JUROS), etc.
+
+📤 Atualização de Preços (Importação Manual):
+O app deve permitir que o usuário substitua o arquivo PRECIFICAÇÃO.xlsx por uma versão atualizada, via:
+
+Upload manual pela memória do celular (ex: pasta do app)
+
+Ou leitura automática de um novo arquivo salvo com o mesmo nome
+
+💡 O template da planilha de atualização será o mesmo, com colunas iguais. Basta preencher e substituir o arquivo na pasta do app.
+
+🎨 Design Recomendado:
+Interface em tons azul-claros ou esverdeado (inspirado em apps de saúde)
+
+Cards com cantos arredondados, sombra suave
+
+Perguntas em tela cheia, botões grandes com texto claro
+
+Sem necessidade de login, 100% offline
+
+📱 Plataforma:
+Deve funcionar em Android (APK)
+
+Executar localmente, sem acesso à internet
+
+Preferência por estrutura leve (Flutter, React Native ou Java)
