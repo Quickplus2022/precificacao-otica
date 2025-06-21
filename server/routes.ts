@@ -1,68 +1,42 @@
-import type { Express, Request } from "express";
-import { createServer, type Server } from "http";
+
+import express from "express";
 import multer from "multer";
-import path from "path";
-import fs from "fs";
-import { readExcelFile } from "./excel-reader";
+import { readExcelFile, parseExcelDataToLenses, getAvailableOptions } from "./excel-reader";
+import storage from "./storage";
 
-const upload = multer({ dest: 'uploads/' });
+const upload = multer();
+const router = express.Router();
 
-interface MulterRequest extends Request {
-  file?: Express.Multer.File;
-}
-
-export async function registerRoutes(app: Express): Promise<Server> {
-  // Upload endpoint for Excel files
-  app.post('/api/upload-excel', upload.single('file'), (req: MulterRequest, res) => {
-    try {
-      if (!req.file) {
-        return res.status(400).json({ error: 'Nenhum arquivo enviado' });
-      }
-
-      const { originalname, filename, mimetype, path: filePath } = req.file;
-      
-      // Validate file type
-      if (!mimetype.includes('sheet') && !originalname.endsWith('.xlsx') && !originalname.endsWith('.xls')) {
-        return res.status(400).json({ error: 'Tipo de arquivo inválido. Apenas arquivos Excel são aceitos.' });
-      }
-
-      // Read and parse Excel file
-      const fileBuffer = fs.readFileSync(filePath);
-      const excelData = readExcelFile(fileBuffer);
-      const lensData = parseExcelDataToLenses(excelData);
-
-      // Clean up uploaded file
-      fs.unlinkSync(filePath);
-      
-      res.json({ 
-        message: 'Arquivo carregado com sucesso',
-        filename: originalname,
-        data: lensData,
-        count: lensData.length
-      });
-    } catch (error) {
-      console.error('Erro no upload:', error);
-      res.status(500).json({ error: 'Erro ao processar arquivo Excel' });
+router.post("/upload", upload.single("file"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "Arquivo não enviado." });
     }
-  });
 
-  // Get available options based on current filters
-  app.post('/api/available-options', (req, res) => {
-    try {
-      const { lensData, currentFilters } = req.body;
-      
-      if (!lensData || !Array.isArray(lensData)) {
-        return res.status(400).json({ error: 'Dados de lentes inválidos' });
-      }
+    const rawData = readExcelFile(req.file.buffer);
+    const lenses = parseExcelDataToLenses(rawData);
 
-      const options = getAvailableOptions(lensData, currentFilters || {});
-      res.json(options);
-    } catch (error) {
-      console.error('Erro ao obter opções:', error);
-      res.status(500).json({ error: 'Erro interno do servidor' });
+    await storage.setItem("lenses", lenses);
+    res.json({ message: "Arquivo processado com sucesso." });
+  } catch (error) {
+    console.error("Erro ao processar o arquivo:", error);
+    res.status(500).json({ message: "Erro ao processar o arquivo." });
+  }
+});
+
+router.get("/options", async (req, res) => {
+  try {
+    const lenses = await storage.getItem("lenses");
+    if (!lenses) {
+      return res.status(404).json({ message: "Nenhuma lente encontrada." });
     }
-  });
 
-  const httpServer = createServer(app);
-  return httpServer;
-}
+    const options = getAvailableOptions(lenses);
+    res.json(options);
+  } catch (error) {
+    console.error("Erro ao obter opções:", error);
+    res.status(500).json({ message: "Erro ao obter opções." });
+  }
+});
+
+export default router;
