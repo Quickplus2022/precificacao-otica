@@ -4,9 +4,10 @@ import { Button } from '@/components/ui/button';
 
 interface WelcomeScreenProps {
   onStart: () => void;
+  onUpload: () => void;
 }
 
-export const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
+export const WelcomeScreen = ({ onStart, onUpload }: WelcomeScreenProps) => {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -48,12 +49,20 @@ export const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
+          className="flex flex-col sm:flex-row gap-4"
         >
           <Button 
             onClick={onStart}
             className="btn-3d gradient-blue-primary text-white font-semibold py-4 px-8 rounded-xl shadow-3d-lg hover:shadow-3d-xl transition-all duration-300 text-lg glow-blue"
           >
             Começar
+          </Button>
+          <Button 
+            onClick={onUpload}
+            variant="outline"
+            className="btn-3d border-primary hover:bg-primary/10 py-4 px-8 rounded-xl shadow-3d-md transition-all duration-300 text-lg"
+          >
+            📊 Atualizar Planilha
           </Button>
         </motion.div>
       </div>

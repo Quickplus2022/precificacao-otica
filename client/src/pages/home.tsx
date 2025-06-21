@@ -26,7 +26,7 @@ export default function Home() {
     <div className="min-h-screen">
       <AnimatePresence mode="wait">
         {currentScreen === 'welcome' && (
-          <WelcomeScreen key="welcome" onStart={startQuestionnaire} />
+          <WelcomeScreen key="welcome" onStart={startQuestionnaire} onUpload={showUploadScreen} />
         )}
         
         {currentScreen === 'question' && questions.length > 0 && (
