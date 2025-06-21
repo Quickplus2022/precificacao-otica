@@ -548,6 +548,86 @@ export const defaultLensData: Lens[] = [
   },
   {
     "id": 35,
+    "nome": "MONTAGEM CR39",
+    "incolor": false,
+    "antireflexo": false,
+    "fotosensivel": false,
+    "blueCut": false,
+    "medidas": null,
+    "esf": null,
+    "cil": null,
+    "espessura": "",
+    "precoVista": "R$ 99,00",
+    "parcela3x": "R$ 39,60",
+    "parcela6x": "R$ 22,28",
+    "parcela10x": "R$ 16,34"
+  },
+  {
+    "id": 36,
+    "nome": "MONTAGEM POLI / ALTO INDICE",
+    "incolor": false,
+    "antireflexo": false,
+    "fotosensivel": false,
+    "blueCut": false,
+    "medidas": null,
+    "esf": null,
+    "cil": null,
+    "espessura": "",
+    "precoVista": "R$ 99,00",
+    "parcela3x": "R$ 39,60",
+    "parcela6x": "R$ 22,28",
+    "parcela10x": "R$ 16,34"
+  },
+  {
+    "id": 37,
+    "nome": "MONTAGEM PARAFUSADO",
+    "incolor": false,
+    "antireflexo": false,
+    "fotosensivel": false,
+    "blueCut": false,
+    "medidas": null,
+    "esf": null,
+    "cil": null,
+    "espessura": "",
+    "precoVista": "R$ 99,00",
+    "parcela3x": "R$ 39,60",
+    "parcela6x": "R$ 22,28",
+    "parcela10x": "R$ 16,34"
+  },
+  {
+    "id": 38,
+    "nome": "COLORACAO SUAVE / ESPORTE",
+    "incolor": false,
+    "antireflexo": false,
+    "fotosensivel": false,
+    "blueCut": false,
+    "medidas": null,
+    "esf": null,
+    "cil": null,
+    "espessura": "",
+    "precoVista": "R$ 99,00",
+    "parcela3x": "R$ 39,60",
+    "parcela6x": "R$ 22,28",
+    "parcela10x": "R$ 16,34"
+  },
+  {
+    "id": 39,
+    "nome": "COLORACAO DEGRADE",
+    "incolor": false,
+    "antireflexo": false,
+    "fotosensivel": false,
+    "blueCut": false,
+    "medidas": null,
+    "esf": null,
+    "cil": null,
+    "espessura": "",
+    "precoVista": "R$ 99,00",
+    "parcela3x": "R$ 39,60",
+    "parcela6x": "R$ 22,28",
+    "parcela10x": "R$ 16,34"
+  },
+  {
+    "id": 40,
     "nome": "BF ULTEX / KRIPTOK  ACABADO",
     "incolor": true,
     "antireflexo": false,
@@ -563,7 +643,7 @@ export const defaultLensData: Lens[] = [
     "parcela10x": "R$ 98,84"
   },
   {
-    "id": 36,
+    "id": 41,
     "nome": "MF CR-39 - SHINEDUX",
     "incolor": true,
     "antireflexo": false,
@@ -579,7 +659,7 @@ export const defaultLensData: Lens[] = [
     "parcela10x": "R$ 98,84"
   },
   {
-    "id": 37,
+    "id": 42,
     "nome": "MF CR-39 ~ FREE LINE / PRO LIFE",
     "incolor": true,
     "antireflexo": false,
@@ -595,7 +675,7 @@ export const defaultLensData: Lens[] = [
     "parcela10x": "R$ 98,84"
   },
   {
-    "id": 38,
+    "id": 43,
     "nome": "MF CR-39",
     "incolor": false,
     "antireflexo": true,
@@ -611,7 +691,7 @@ export const defaultLensData: Lens[] = [
     "parcela10x": "R$ 98,84"
   },
   {
-    "id": 39,
+    "id": 44,
     "nome": "MF CR-39 - SHINEDUX",
     "incolor": false,
     "antireflexo": false,
@@ -627,7 +707,7 @@ export const defaultLensData: Lens[] = [
     "parcela10x": "R$ 115,33"
   },
   {
-    "id": 40,
+    "id": 45,
     "nome": "MF CR-39",
     "incolor": false,
     "antireflexo": false,
@@ -643,7 +723,7 @@ export const defaultLensData: Lens[] = [
     "parcela10x": "R$ 98,84"
   },
   {
-    "id": 41,
+    "id": 46,
     "nome": "MF CR-39  -  SHINEDUX",
     "incolor": false,
     "antireflexo": true,
@@ -659,7 +739,7 @@ export const defaultLensData: Lens[] = [
     "parcela10x": "R$ 115,33"
   },
   {
-    "id": 42,
+    "id": 47,
     "nome": "MF CR39 - AUDAX",
     "incolor": false,
     "antireflexo": true,
@@ -675,7 +755,7 @@ export const defaultLensData: Lens[] = [
     "parcela10x": "R$ 148,33"
   },
   {
-    "id": 43,
+    "id": 48,
     "nome": "MF POLICARBONATO - SHINEDUX",
     "incolor": false,
     "antireflexo": false,
@@ -697,42 +777,63 @@ export const questions = [
     text: "É incolor?",
     key: "incolor" as const,
     options: [
-      { label: "SIM", value: true },
-      { label: "NÃO", value: false }
+      { label: "Sim", value: true },
+      { label: "Não", value: false }
     ]
   },
   {
     text: "Tem antirreflexo?",
     key: "antireflexo" as const,
     options: [
-      { label: "SIM", value: true },
-      { label: "NÃO", value: false }
+      { label: "Sim", value: true },
+      { label: "Não", value: false }
     ]
   },
   {
-    text: "É fotossensível?",
+    text: "É fotosensível?",
     key: "fotosensivel" as const,
     options: [
-      { label: "SIM", value: true },
-      { label: "NÃO", value: false }
+      { label: "Sim", value: true },
+      { label: "Não", value: false }
     ]
   },
   {
     text: "Tem blue cut?",
     key: "blueCut" as const,
     options: [
-      { label: "SIM", value: true },
-      { label: "NÃO", value: false }
+      { label: "Sim", value: true },
+      { label: "Não", value: false }
+    ]
+  },
+  {
+    text: "Qual a faixa de grau?",
+    key: "medidas" as const,
+    options: [
+      { label: "-1.00 a +1.00", value: "-1.00 a +1.00" },
+      { label: "-2.00 a +2.00", value: "-2.00 a +2.00" },
+      { label: "-4.00 a +4.00", value: "-4.00 a +4.00" },
+      { label: "-6.00 a +6.00", value: "-6.00 a +6.00" }
+    ]
+  },
+  {
+    text: "Qual a espessura?",
+    key: "espessura" as const,
+    options: [
+      { label: "1.50", value: "1.50" },
+      { label: "1.67", value: "1.67" },
+      { label: "1.74", value: "1.74" }
     ]
   }
 ];
 
 export const getQuestionLabel = (key: string): string => {
-  const questionMap: Record<string, string> = {
-    incolor: "É incolor?",
-    antireflexo: "Tem antirreflexo?",
-    fotosensivel: "É fotossensível?",
-    blueCut: "Tem blue cut?"
+  const labels: Record<string, string> = {
+    'incolor': 'É INCOLOR',
+    'antireflexo': 'TEM ANTIREFLEXO',
+    'fotosensivel': 'É FOTOSENSÍVEL',
+    'blueCut': 'TEM BLUE CUT',
+    'medidas': 'EM QUAL FAIXA ESTÁ O GRAU',
+    'espessura': 'QUAL A ESPESSURA'
   };
-  return questionMap[key] || key;
+  return labels[key] || key;
 };
