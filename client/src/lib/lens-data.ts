@@ -1,14 +1,14 @@
 import { Lens } from "@shared/schema";
 
-// Dados corretos baseados nas imagens do Power BI fornecidas pelo usuário
+// Dados extraídos da planilha real PRECIFICAÇÃO
 export const defaultLensData: Lens[] = [
   {
     id: 1,
     nome: "LT CR-39",
-    incolor: false,
-    antireflexo: true,
-    fotosensivel: false,
-    blueCut: false,
+    incolor: false, // "NÃO"
+    antireflexo: true, // "SIM"
+    fotosensivel: false, // "NÃO"
+    blueCut: false, // "NÃO"
     medidas: "Esf. -6,00 a +4,00 / Cil. -0,25 a -2,00",
     esf: null,
     cil: null,
@@ -21,50 +21,82 @@ export const defaultLensData: Lens[] = [
   {
     id: 2,
     nome: "LT CR-39",
-    incolor: true,
-    antireflexo: false,
-    fotosensivel: false,
-    blueCut: false,
-    medidas: "Esf. -6,00 a +4,00 / Cil. -0,25 a -2,00",
+    incolor: false, // "NÃO"
+    antireflexo: true, // "SIM"
+    fotosensivel: false, // "NÃO"
+    blueCut: false, // "NÃO"
+    medidas: "Esf. -6,00 a +6,00 / Cil. -2,25 a -4,00",
     esf: null,
     cil: null,
     espessura: "1.56",
-    precoVista: "R$ 89,78",
-    parcela3x: "R$ 33,93",
-    parcela6x: "R$ 18,96",
-    parcela10x: "R$ 13,47"
+    precoVista: "R$ 499,00",
+    parcela3x: "R$ 199,60",
+    parcela6x: "R$ 112,27",
+    parcela10x: "R$ 82,34"
   },
   {
     id: 3,
     nome: "LT CR-39",
-    incolor: false,
-    antireflexo: false,
-    fotosensivel: false,
-    blueCut: false,
+    incolor: false, // "NÃO"
+    antireflexo: true, // "SIM"
+    fotosensivel: false, // "NÃO"
+    blueCut: false, // "NÃO"
     medidas: "Esf. -4,00 a +4,00 / Cil. -4,25 a -6,00",
     esf: null,
     cil: null,
     espessura: "1.56",
-    precoVista: "R$ 150,00",
-    parcela3x: "R$ 56,70",
-    parcela6x: "R$ 31,70",
-    parcela10x: "R$ 22,50"
+    precoVista: "R$ 599,00",
+    parcela3x: "R$ 239,60",
+    parcela6x: "R$ 134,78",
+    parcela10x: "R$ 98,84"
   },
   {
     id: 4,
     nome: "LT CR-39",
-    incolor: false,
-    antireflexo: true,
-    fotosensivel: false,
-    blueCut: false,
-    medidas: "Esf. -4,00 a +2,00 / Cil. -0,25 a -2,00",
+    incolor: false, // "NÃO"
+    antireflexo: true, // "SIM"
+    fotosensivel: true, // "SIM"
+    blueCut: false, // "NÃO"
+    medidas: "Esf. -4,00 a +4,00 / Cil. -0,25 a -2,00",
     esf: null,
     cil: null,
-    espessura: "1.59",
-    precoVista: "R$ 280,00",
-    parcela3x: "R$ 105,84",
-    parcela6x: "R$ 59,15",
-    parcela10x: "R$ 42,00"
+    espessura: "1.56",
+    precoVista: "R$ 499,00",
+    parcela3x: "R$ 199,60",
+    parcela6x: "R$ 112,27",
+    parcela10x: "R$ 82,34"
+  },
+  {
+    id: 5,
+    nome: "LT CR-39",
+    incolor: true, // "SIM"
+    antireflexo: false, // "NÃO"
+    fotosensivel: false, // "NÃO"
+    blueCut: false, // "NÃO"
+    medidas: "Esf. -1,00 a +1,00 / Cil. -0,25 a -2,00",
+    esf: null,
+    cil: null,
+    espessura: "1.56",
+    precoVista: "R$ 89,78",
+    parcela3x: "R$ 35,91",
+    parcela6x: "R$ 20,17",
+    parcela10x: "R$ 14,81"
+  },
+  {
+    id: 6,
+    nome: "LT CR-39",
+    incolor: true, // "SIM"
+    antireflexo: true, // "SIM"
+    fotosensivel: false, // "NÃO"
+    blueCut: true, // "SIM"
+    medidas: "Esf. -2,00 a +2,00 / Cil. -0,25 a -2,00",
+    esf: null,
+    cil: null,
+    espessura: "1.67",
+    precoVista: "R$ 799,00",
+    parcela3x: "R$ 319,60",
+    parcela6x: "R$ 179,78",
+    parcela10x: "R$ 131,84"
   }
 ];
 
