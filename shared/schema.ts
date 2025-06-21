@@ -9,6 +9,7 @@ export const lenses = pgTable("lenses", {
   antireflexo: boolean("antireflexo").notNull(),
   fotosensivel: boolean("fotosensivel").notNull(),
   blueCut: boolean("blue_cut").notNull(),
+  tipo: text("tipo").notNull(), // VISÃO SIMPLES, LENTES SOLARES, BIFOCAIS CR-39, PROGRESSIVAS ACABADAS
   medidas: text("medidas"), // Pode ser null se houver ESF/CIL separados
   esf: text("esf"), // Esfera - opcional
   cil: text("cil"), // Cilindro - opcional
@@ -29,6 +30,7 @@ export interface LensFilter {
   antireflexo?: boolean;
   fotosensivel?: boolean;
   blueCut?: boolean;
+  tipo?: string;
   medidas?: string;
   esf?: string;
   cil?: string;
