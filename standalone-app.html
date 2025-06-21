@@ -94,8 +94,29 @@
             background: rgba(255,255,255,0.1);
             color: white;
             margin: 5px 0;
+            font-size: 14px;
         }
         .editor-input::placeholder { color: rgba(255,255,255,0.6); }
+        select.editor-input option {
+            background: #2d3748;
+            color: white;
+        }
+        textarea.editor-input {
+            resize: vertical;
+            min-height: 50px;
+        }
+        .helper-btn {
+            background: rgba(99, 179, 237, 0.2);
+            border: 1px solid #63b3ed;
+            color: #63b3ed;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+        .helper-btn:hover {
+            background: rgba(99, 179, 237, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -307,6 +328,21 @@
             showScreen('editor-screen');
         }
 
+        // Ranges pré-definidos para facilitar edição
+        const esfRanges = [
+            "Esf. -15,00 a -12,25", "Esf. -12,00 a -10,25", "Esf. -10,00 a -8,25", "Esf. -8,00 a -6,25",
+            "Esf. -6,00 a -4,25", "Esf. -4,00 a -2,25", "Esf. -2,00 a 0,00", "Esf. 0,00 a +2,00",
+            "Esf. +2,25 a +4,00", "Esf. +4,25 a +6,00", "Esf. +6,25 a +8,00", "CURVA 600", "CURVA 800",
+            "ESF. 0,00/2,00 - AD: 1,00 a 3,00", "ESF. 0,00/3,00 - AD: 1,00 a 3,00"
+        ];
+
+        const cilRanges = [
+            "Cil. -0,25 a -2,00", "Cil. -2,25 a -4,00", "Cil. -4,25 a -6,00", "Cil. -0,25 a -3,00",
+            "Cil. -0,25 a -4,00", "Cil. -2,00", "Cil. -3,00", "Cil. -4,00"
+        ];
+
+        const espessuras = ["1.50", "1.53", "1.56", "1.59", "1.61", "1.67", "1.74", "14mm", "15mm", "18mm", "70mm"];
+
         // Renderizar lista de lentes no editor
         function renderLensList() {
             const listDiv = document.getElementById('lens-list');
@@ -317,17 +353,83 @@
                 card.className = 'lens-card';
                 card.innerHTML = `
                     <input class="editor-input" value="${lens.nome}" onchange="updateLens(${index}, 'nome', this.value)" placeholder="Nome">
+                    
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0;">
                         <label><input type="checkbox" ${lens.incolor ? 'checked' : ''} onchange="updateLens(${index}, 'incolor', this.checked)"> Incolor</label>
                         <label><input type="checkbox" ${lens.antireflexo ? 'checked' : ''} onchange="updateLens(${index}, 'antireflexo', this.checked)"> Antirreflexo</label>
                         <label><input type="checkbox" ${lens.fotosensivel ? 'checked' : ''} onchange="updateLens(${index}, 'fotosensivel', this.checked)"> Fotossensível</label>
                         <label><input type="checkbox" ${lens.blueCut ? 'checked' : ''} onchange="updateLens(${index}, 'blueCut', this.checked)"> Blue Cut</label>
                     </div>
-                    <input class="editor-input" value="${lens.precoVista}" onchange="updateLens(${index}, 'precoVista', this.value)" placeholder="Preço à Vista">
+
+                    <label style="font-size: 12px; color: #63b3ed; margin-top: 10px;">Medidas:</label>
+                    <textarea class="editor-input" rows="2" onchange="updateLens(${index}, 'medidas', this.value)" placeholder="Ex: Esf. -6,00 a +4,00 / Cil. -0,25 a -2,00">${lens.medidas}</textarea>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 5px 0;">
+                        <button class="btn-outline" style="font-size: 10px; padding: 5px;" onclick="showMedidasHelper(${index})">Ajuda Medidas</button>
+                        <select class="editor-input" style="padding: 5px;" onchange="updateLens(${index}, 'espessura', this.value)">
+                            ${espessuras.map(esp => `<option value="${esp}" ${lens.espessura === esp ? 'selected' : ''}>${esp}</option>`).join('')}
+                        </select>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0;">
+                        <input class="editor-input" value="${lens.precoVista}" onchange="updateLens(${index}, 'precoVista', this.value)" placeholder="Preço à Vista">
+                        <input class="editor-input" value="${lens.parcela3x}" onchange="updateLens(${index}, 'parcela3x', this.value)" placeholder="3x">
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0;">
+                        <input class="editor-input" value="${lens.parcela6x}" onchange="updateLens(${index}, 'parcela6x', this.value)" placeholder="6x">
+                        <input class="editor-input" value="${lens.parcela10x}" onchange="updateLens(${index}, 'parcela10x', this.value)" placeholder="10x">
+                    </div>
+
                     <button class="btn-outline btn" onclick="removeLens(${index})" style="margin-top: 10px;">Remover</button>
                 `;
                 listDiv.appendChild(card);
             });
+        }
+
+        // Mostrar helper para medidas
+        function showMedidasHelper(index) {
+            const helpText = `
+Exemplos de medidas comuns:
+
+LENTES DE GRAU:
+• Esf. -6,00 a +4,00 / Cil. -0,25 a -2,00
+• Esf. -4,00 a +4,00 / Cil. -2,25 a -4,00
+• Esf. -10,00 a +6,00 / Cil. -0,25 a -4,00
+
+LENTES COLORIDAS:
+• CURVA 600
+• CURVA 800
+• CURVA 600 / 800
+
+LENTES MULTIFOCAIS:
+• ESF. 0,00/2,00 - AD: 1,00 a 3,00
+• ESF. 0,00/3,00 - AD: 1,00 a 3,00
+
+Clique em uma opção para usar:`;
+
+            if (confirm(helpText + "\n\nVer exemplos específicos?")) {
+                const medidaEscolhida = prompt(`Escolha uma medida:
+1. Esf. -6,00 a +4,00 / Cil. -0,25 a -2,00
+2. Esf. -4,00 a +4,00 / Cil. -2,25 a -4,00
+3. CURVA 600
+4. ESF. 0,00/3,00 - AD: 1,00 a 3,00
+5. Personalizada
+
+Digite o número ou a medida customizada:`);
+
+                let novaMedida = '';
+                switch(medidaEscolhida) {
+                    case '1': novaMedida = 'Esf. -6,00 a +4,00 / Cil. -0,25 a -2,00'; break;
+                    case '2': novaMedida = 'Esf. -4,00 a +4,00 / Cil. -2,25 a -4,00'; break;
+                    case '3': novaMedida = 'CURVA 600'; break;
+                    case '4': novaMedida = 'ESF. 0,00/3,00 - AD: 1,00 a 3,00'; break;
+                    default: novaMedida = medidaEscolhida || lensData[index].medidas;
+                }
+
+                updateLens(index, 'medidas', novaMedida);
+                renderLensList();
+            }
         }
 
         // Atualizar lente
