@@ -117,7 +117,7 @@ export const defaultLensData: Lens[] = [
   {
     id: 8,
     nome: "LT POLI",
-    incolor: true, // "SIM"
+    incolor: true, // "SIM" - única linha com INCOLOR=SIM na planilha
     antireflexo: false, // "NÃO"
     fotosensivel: false, // "NÃO"
     blueCut: false, // "NÃO"

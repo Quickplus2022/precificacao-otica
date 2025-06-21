@@ -166,7 +166,7 @@ export const useLensConfigurator = () => {
       const lastKey = answeredKeys[answeredKeys.length - 1];
       setAnswers(prev => {
         const newAnswers = { ...prev };
-        delete newAnswers[lastKey];
+        delete newAnswers[lastKey as keyof typeof newAnswers];
         return newAnswers;
       });
     } else {

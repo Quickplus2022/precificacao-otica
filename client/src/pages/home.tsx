@@ -37,6 +37,7 @@ export default function Home() {
             onAnswer={selectAnswer}
             onBack={goBack}
             questions={questions}
+            answeredCount={Object.keys(answers).length}
           />
         )}
         

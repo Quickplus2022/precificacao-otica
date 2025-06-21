@@ -14,9 +14,10 @@ interface QuestionScreenProps {
   onAnswer: (answer: string | boolean) => void;
   onBack: () => void;
   questions: Question[];
+  answeredCount: number;
 }
 
-export const QuestionScreen = ({ currentStep, progress, onAnswer, onBack, questions }: QuestionScreenProps) => {
+export const QuestionScreen = ({ currentStep, progress, onAnswer, onBack, questions, answeredCount }: QuestionScreenProps) => {
   const question = questions[currentStep];
 
   if (!question) return null;
@@ -78,7 +79,7 @@ export const QuestionScreen = ({ currentStep, progress, onAnswer, onBack, questi
           </motion.div>
           
           {/* Back Button */}
-          {currentStep > 0 && (
+          {answeredCount > 0 && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
