@@ -137,8 +137,9 @@ export const useLensConfigurator = () => {
         return;
       }
       
-      // Se chegou aqui, todas as perguntas foram respondidas
+      // Se chegou aqui, todas as perguntas foram respondidas - ir para resultados
       setQuestions([]);
+      setCurrentScreen('results');
     };
 
     generateQuestions();
@@ -203,8 +204,13 @@ export const useLensConfigurator = () => {
   }, [lensData]);
 
   const filteredLenses = filterLenses(answers);
-  const progress = (currentStep / questions.length) * 100;
-  const currentQuestion = questions[currentStep];
+  
+  // Calcular progresso baseado no número de respostas vs total de perguntas esperadas
+  const totalQuestions = 6; // incolor, antireflexo, fotosensivel, blueCut, medidas, espessura
+  const answeredQuestions = Object.keys(answers).length;
+  const progress = (answeredQuestions / totalQuestions) * 100;
+  
+  const currentQuestion = questions[0]; // Sempre mostra a primeira pergunta da lista atual
 
   return {
     currentScreen,
@@ -215,6 +221,7 @@ export const useLensConfigurator = () => {
     setLensData,
     filteredLenses,
     progress,
+    questions,
     currentQuestion,
     availableOptions,
     startQuestionnaire,

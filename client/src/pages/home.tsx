@@ -29,13 +29,14 @@ export default function Home() {
           <WelcomeScreen key="welcome" onStart={startQuestionnaire} />
         )}
         
-        {currentScreen === 'question' && (
+        {currentScreen === 'question' && questions.length > 0 && (
           <QuestionScreen 
             key="question"
-            currentStep={currentStep}
+            currentStep={0}
             progress={progress}
             onAnswer={selectAnswer}
             onBack={goBack}
+            questions={questions}
           />
         )}
         
