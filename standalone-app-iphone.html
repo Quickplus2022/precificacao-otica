@@ -424,6 +424,7 @@
             </div>
 
             <button class="btn" onclick="startQuestions()">🔍 Começar Configuração</button>
+            <button class="btn-outline btn" onclick="showAllLenses()">👀 Ver Todas as Lentes</button>
             <button class="btn-outline btn" onclick="showEditor()">✏️ Editar Preços</button>
             <button class="btn-outline btn" onclick="downloadStandalone()">⬇️ Baixar App Offline</button>
         </div>
@@ -729,6 +730,13 @@
             });
             saveData();
             renderLensList();
+        }
+
+        // Mostrar todas as lentes
+        function showAllLenses() {
+            currentAnswers = {};
+            currentStep = 0;
+            showResults(lensData);
         }
 
         // Voltar para início

@@ -349,6 +349,7 @@
                 Encontre a lente perfeita através de algumas perguntas simples
             </p>
             <button class="btn" onclick="startQuestions()">Começar Configuração</button>
+            <button class="btn-outline btn" onclick="showAllLenses()">Ver Todas as Lentes</button>
             <button class="btn-outline btn" onclick="showEditor()">Editar Preços</button>
             <button class="btn-outline btn" onclick="downloadStandalone()">Baixar App Offline</button>
         </div>
@@ -546,6 +547,7 @@
 
                     card.innerHTML = `
                         <h3>${lens.nome}</h3>
+                        ${lens.tipo ? `<div style="margin: 10px 0;"><span style="background: #dbeafe; color: #1e40af; padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: bold;">${lens.tipo}</span></div>` : ''}
                         <div class="features">
                             ${features.map(f => `<span class="feature">${f}</span>`).join('')}
                         </div>
@@ -718,6 +720,13 @@ Digite o número ou a medida customizada:`);
             });
             saveData();
             renderLensList();
+        }
+
+        // Mostrar todas as lentes
+        function showAllLenses() {
+            currentAnswers = {};
+            currentStep = 0;
+            showResults(lensData);
         }
 
         // Voltar para início
