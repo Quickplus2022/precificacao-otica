@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Upload, X, FileSpreadsheet } from 'lucide-react';
+import { Upload, X, FileSpreadsheet, Download, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { uploadExcelFile, saveToLocalStorage, validateExcelFile } from '@/lib/excel-parser';
+import { downloadTemplate, getTemplateInstructions } from '@/lib/excel-template';
 import { Lens } from '@shared/schema';
 
 interface UploadScreenProps {
@@ -88,8 +89,36 @@ export const UploadScreen = ({ onCancel, onUploadSuccess }: UploadScreenProps) =
             >
               <h2 className="text-xl font-bold text-primary mb-4">Atualizar Preços</h2>
               <p className="text-muted-foreground mb-6">
-                Selecione o arquivo PRECIFICAÇÃO.xlsx atualizado
+                Baixe o modelo, atualize os preços e faça upload
               </p>
+              
+              {/* Botões de Download e Instruções */}
+              <div className="mb-6 space-y-3">
+                <Button
+                  onClick={() => {
+                    downloadTemplate();
+                    toast({
+                      title: "Modelo baixado!",
+                      description: "Arquivo MODELO_PRECIFICACAO.csv baixado. Abra no Excel para editar.",
+                    });
+                  }}
+                  variant="outline"
+                  className="w-full border-primary text-primary hover:bg-primary hover:text-white transition-colors"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Baixar Modelo da Planilha
+                </Button>
+                
+                <details className="text-left">
+                  <summary className="cursor-pointer text-sm text-primary hover:text-primary/80 flex items-center">
+                    <Info className="w-4 h-4 mr-1" />
+                    Ver instruções de preenchimento
+                  </summary>
+                  <div className="mt-2 p-3 bg-muted rounded-lg text-xs text-muted-foreground whitespace-pre-line">
+                    {getTemplateInstructions()}
+                  </div>
+                </details>
+              </div>
               
               <div 
                 className={`border-2 border-dashed rounded-lg p-6 mb-6 transition-colors ${

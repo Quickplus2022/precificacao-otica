@@ -4,21 +4,47 @@
   "description": "Aplicativo para configuração de óculos com precificação offline",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#1d1d1d",
-  "theme_color": "#bd9a6e",
-  "orientation": "portrait",
+  "background_color": "#1a365d",
+  "theme_color": "#1a365d",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "prefer_related_applications": false,
+  "display_override": ["standalone", "minimal-ui"],
   "icons": [
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMTIgNC41QzcgNC41IDIuNzMgNy42MSAxIDEyYzEuNzMgNC4zOSA2IDcuNSAxMSA3LjVzOS4yNy0zLjExIDExLTcuNWMtMS43My00LjM5LTYtNy41LTExLTcuNXpNMTIgMTdjLTIuNzYgMC01LTIuMjQtNS01czIuMjQtNSA1LTUgNSAyLjI0IDUgNS0yLjI0IDUtNSA1em0wLThjLTEuNjYgMC0zIDEuMzQtMyAzczEuMzQgMyAzIDMgMy0xLjM0IDMtMy0xLjM0LTMtMy0zeiIgZmlsbD0iIzI0MjQyNCIvPgo8L3N2Zz4K",
-      "sizes": "192x192",
-      "type": "image/svg+xml"
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHZpZXdCb3g9IjAgMCA3MiA3MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjcyIiBoZWlnaHQ9IjcyIiByeD0iMTYiIGZpbGw9IiMxYTM2NWQiLz4KPHN2ZyB4PSIxMiIgeT0iMTIiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj4KPHN0eWxlPi5nbGFzc2VzIHsgZmlsbDogI2ZmZmZmZjsgfSA8L3N0eWxlPgo8cGF0aCBkPSJNMi41IDEyQzUuNSA3IDguNSA0LjUgMTIgNC41UzE4LjUgNyAyMS41IDEyQzE4LjUgMTcgMTUuNSAxOS41IDEyIDE5LjVTNS41IDE3IDIuNSAxMiIgY2xhc3M9ImdsYXNzZXMiLz4KPGNpcmNsZSBjeD0iOCIgY3k9IjEyIiByPSIzLjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPGNpcmNsZSBjeD0iMTYiIGN5PSIxMiIgcj0iMy41IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMS41Ii8+CjxsaW5lIHgxPSIxMS41IiB5MT0iMTIiIHgyPSIxMi41IiB5Mj0iMTIiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+Cjwvc3ZnPg==",
+      "sizes": "72x72",
+      "type": "image/svg+xml",
+      "purpose": "any"
     },
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMTIgNC41QzcgNC41IDIuNzMgNy42MSAxIDEyYzEuNzMgNC4zOSA2IDcuNSAxMSA3LjVzOS4yNy0zLjExIDExLTcuNWMtMS43My00LjM5LTYtNy41LTExLTcuNXpNMTIgMTdjLTIuNzYgMC01LTIuMjQtNS01czIuMjQtNSA1LTUgNSAyLjI0IDUgNS0yLjI0IDUtNSA1em0wLThjLTEuNjYgMC0zIDEuMzQtMyAzczEuMzQgMyAzIDMgMy0xLjM0IDMtMy0xLjM0LTMtMy0zeiIgZmlsbD0iIzI0MjQyNCIvPgo8L3N2Zz4K",
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iNDAiIGZpbGw9IiMxYTM2NWQiLz4KPHN2ZyB4PSIzMiIgeT0iMzIiIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiPgo8c3R5bGU+LmdsYXNzZXMgeyBmaWxsOiAjZmZmZmZmOyB9IDwvc3R5bGU+CjxwYXRoIGQ9Ik0yLjUgMTJDNS41IDcgOC41IDQuNSAxMiA0LjVTMTguNSA3IDIxLjUgMTJDMTguNSAxNyAxNS41IDE5LjUgMTIgMTkuNVM1LjUgMTcgMi41IDEyIiBjbGFzcz0iZ2xhc3NlcyIvPgo8Y2lyY2xlIGN4PSI4IiBjeT0iMTIiIHI9IjMuNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjEuNSIvPgo8Y2lyY2xlIGN4PSIxNiIgY3k9IjEyIiByPSIzLjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPGxpbmUgeDE9IjExLjUiIHkxPSIxMiIgeDI9IjEyLjUiIHkyPSIxMiIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjEuNSIvPgo8L3N2Zz4KPC9zdmc+",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTA0IiBmaWxsPSIjMWEzNjVkIi8+CjxzdmcgeD0iODYiIHk9Ijg2IiB3aWR0aD0iMzQwIiBoZWlnaHQ9IjM0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj4KPHN0eWxlPi5nbGFzc2VzIHsgZmlsbDogI2ZmZmZmZjsgfSA8L3N0eWxlPgo8cGF0aCBkPSJNMi41IDEyQzUuNSA3IDguNSA0LjUgMTIgNC41UzE4LjUgNyAyMS41IDEyQzE4LjUgMTcgMTUuNSAxOS41IDEyIDE5LjVTNS41IDE3IDIuNSAxMiIgY2xhc3M9ImdsYXNzZXMiLz4KPGNpcmNsZSBjeD0iOCIgY3k9IjEyIiByPSIzLjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPGNpcmNsZSBjeD0iMTYiIGN5PSIxMiIgcj0iMy41IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMS41Ii8+CjxsaW5lIHgxPSIxMS41IiB5MT0iMTIiIHgyPSIxMi41IiB5Mj0iMTIiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+Cjwvc3ZnPg==",
       "sizes": "512x512",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ],
-  "categories": ["health", "productivity"],
-  "lang": "pt-BR"
+  "categories": ["health", "productivity", "business"],
+  "lang": "pt-BR",
+  "shortcuts": [
+    {
+      "name": "Nova Configuração",
+      "short_name": "Nova Config",
+      "description": "Iniciar nova configuração de óculos",
+      "url": "/",
+      "icons": [
+        {
+          "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHZpZXdCb3g9IjAgMCA3MiA3MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjcyIiBoZWlnaHQ9IjcyIiByeD0iMTYiIGZpbGw9IiMxYTM2NWQiLz4KPC9zdmc+",
+          "sizes": "72x72",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ]
 }
