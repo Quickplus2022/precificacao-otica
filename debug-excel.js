@@ -38,6 +38,22 @@ if (fs.existsSync(filePath)) {
   Array.from(combinations).sort().forEach((combo, index) => {
     console.log(`${index + 1}. ${combo}`);
   });
+
+  console.log('\n=== CONTAGEM TOTAL DE LENTES POR COMBINAÇÃO ===');
+  const comboCounts = {};
+  for (let i = 1; i < data.length; i++) {
+    const row = data[i];
+    if (row && row.length > 11) {
+      const combo = `INCOLOR=${row[5]}, ANTIREFLEXO=${row[6]}, FOTOSENSÍVEL=${row[7]}, BLUE_CUT=${row[8]}`;
+      comboCounts[combo] = (comboCounts[combo] || 0) + 1;
+    }
+  }
+  
+  Object.entries(comboCounts).sort().forEach(([combo, count]) => {
+    console.log(`${combo} → ${count} lentes`);
+  });
+
+  console.log(`\nTOTAL DE LENTES NA PLANILHA: ${data.length - 1}`);
   
   console.log('\n=== PRIMEIRAS 10 LINHAS DE DADOS FORMATADAS ===');
   for (let i = 1; i <= Math.min(10, data.length - 1); i++) {
