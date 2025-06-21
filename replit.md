@@ -102,14 +102,16 @@ Preferred communication style: Simple, everyday language.
 
 # Recent Changes
 
-- June 21, 2025: **Sistema offline completo implementado**
+- June 21, 2025: **Sistema offline completo com deployment implementado**
   - PWA configurado para funcionamento offline no celular
   - Service Worker implementado para cache completo da aplicação
+  - Editor de preços integrado - sem necessidade de planilhas
+  - Busca, edição, adição e remoção de lentes diretamente no app
   - Template de planilha para download com instruções de preenchimento
-  - Guia de instalação offline para Android e iOS
+  - Guia de instalação offline para Android e iOS visível na tela inicial
   - Upload funcionando offline após instalação no dispositivo
-  - Botões para download do modelo PRECIFICACAO.csv na tela de upload
   - Sistema usa dados reais da planilha PRECIFICAÇÃO_REAL (43 lentes)
+  - **Deployment configurado**: App funciona independente do Replit via URL público
 
 - June 20, 2025: **Sistema de filtragem progressiva implementado**
   - Sistema agora filtra dinamicamente as opções baseado nas respostas do usuário

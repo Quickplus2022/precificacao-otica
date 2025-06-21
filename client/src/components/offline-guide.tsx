@@ -78,10 +78,20 @@ export const OfflineGuide = ({ onClose }: OfflineGuideProps) => {
 
               {/* Dica importante */}
               <div className="bg-primary/10 p-4 rounded-lg border border-primary/20">
-                <h3 className="font-semibold text-primary mb-1">💡 Dica importante:</h3>
-                <p className="text-xs text-muted-foreground">
-                  Primeiro baixe o modelo da planilha com internet, preencha os dados 
-                  e depois use o app offline para consultar preços rapidamente.
+                <h3 className="font-semibold text-primary mb-1">💡 Como usar:</h3>
+                <ol className="text-xs text-muted-foreground space-y-1">
+                  <li>1. Acesse o link público do app no seu celular</li>
+                  <li>2. Instale seguindo as instruções acima</li>
+                  <li>3. Use "Atualizar Preços" → "Editar Manualmente" para configurar</li>
+                  <li>4. Depois funciona offline em qualquer lugar!</li>
+                </ol>
+              </div>
+
+              <div className="bg-green-500/10 p-4 rounded-lg border border-green-500/20">
+                <h3 className="font-semibold text-green-400 mb-1">🎉 Pronto para usar!</h3>
+                <p className="text-xs text-green-300/80">
+                  Após o deployment, você receberá um link que funciona em qualquer celular, 
+                  mesmo sem estar no Replit. O app fica completamente independente!
                 </p>
               </div>
             </div>
