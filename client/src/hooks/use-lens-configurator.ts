@@ -21,9 +21,12 @@ export const useLensConfigurator = () => {
   });
   const [availableOptions, setAvailableOptions] = useState<{
     medidas: string[];
+    esf: string[];
+    cil: string[];
     espessuras: string[];
     count: number;
-  }>({ medidas: [], espessuras: [], count: 0 });
+    hasEsfCil: boolean;
+  }>({ medidas: [], esf: [], cil: [], espessuras: [], count: 0, hasEsfCil: false });
 
   // Perguntas base - serão atualizadas dinamicamente
   const [questions, setQuestions] = useState<Question[]>([
@@ -60,7 +63,7 @@ export const useLensConfigurator = () => {
       ]
     },
     {
-      text: "Qual a faixa de grau?",
+      text: "Qual a graduação?",
       key: "medidas",
       options: []
     },

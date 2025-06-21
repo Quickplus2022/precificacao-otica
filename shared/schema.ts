@@ -9,7 +9,9 @@ export const lenses = pgTable("lenses", {
   antireflexo: boolean("antireflexo").notNull(),
   fotosensivel: boolean("fotosensivel").notNull(),
   blueCut: boolean("blue_cut").notNull(),
-  medidas: text("medidas").notNull(),
+  medidas: text("medidas"), // Pode ser null se houver ESF/CIL separados
+  esf: text("esf"), // Esfera - opcional
+  cil: text("cil"), // Cilindro - opcional
   espessura: text("espessura").notNull(),
   precoVista: text("preco_vista").notNull(),
   parcela3x: text("parcela_3x").notNull(),
@@ -28,6 +30,8 @@ export interface LensFilter {
   fotosensivel?: boolean;
   blueCut?: boolean;
   medidas?: string;
+  esf?: string;
+  cil?: string;
   espessura?: string;
 }
 

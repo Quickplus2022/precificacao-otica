@@ -20,10 +20,17 @@ export interface ExcelRow {
 export const parseExcelToLenses = (data: ExcelRow[]): Lens[] => {
   return data.map((row, index) => {
     // Verificar se tem colunas ESF e CIL separadas ou usar MEDIDAS
-    let medidas = '';
+    let medidas = null;
+    let esf = null;
+    let cil = null;
+    
     if (row.ESF && row.CIL) {
+      // Se tem ESF e CIL separados, usar esses valores
+      esf = row.ESF;
+      cil = row.CIL;
       medidas = `ESF: ${row.ESF}, CIL: ${row.CIL}`;
     } else if (row.MEDIDAS) {
+      // Se tem apenas MEDIDAS, usar esse valor
       medidas = row.MEDIDAS;
     }
 
@@ -35,6 +42,8 @@ export const parseExcelToLenses = (data: ExcelRow[]): Lens[] => {
       fotosensivel: row.FOTOSENSÍVEL?.toLowerCase() === 'sim',
       blueCut: row["BLUE CUT"]?.toLowerCase() === 'sim',
       medidas: medidas,
+      esf: esf,
+      cil: cil,
       espessura: row.ESP || '',
       precoVista: row["PREÇO A VISTA"] || '',
       parcela3x: row["PARCELA EM 3X (JUROS)"] || '',

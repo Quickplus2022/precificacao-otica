@@ -55,10 +55,17 @@ export const readExcelFile = (buffer: Buffer): ExcelData[] => {
 export const parseExcelDataToLenses = (data: ExcelData[]): Lens[] => {
   return data.map((row, index) => {
     // Verificar se tem colunas ESF e CIL separadas ou usar MEDIDAS
-    let medidas = '';
+    let medidas = null;
+    let esf = null;
+    let cil = null;
+    
     if (row.ESF && row.CIL) {
+      // Se tem ESF e CIL separados, usar esses valores
+      esf = row.ESF;
+      cil = row.CIL;
       medidas = `ESF: ${row.ESF}, CIL: ${row.CIL}`;
     } else if (row.MEDIDAS) {
+      // Se tem apenas MEDIDAS, usar esse valor
       medidas = row.MEDIDAS;
     }
     
@@ -70,6 +77,8 @@ export const parseExcelDataToLenses = (data: ExcelData[]): Lens[] => {
       fotosensivel: row.FOTOSENSÍVEL?.toLowerCase() === 'sim',
       blueCut: row["BLUE CUT"]?.toLowerCase() === 'sim',
       medidas: medidas,
+      esf: esf,
+      cil: cil,
       espessura: row.ESP || '',
       precoVista: row["PREÇO A VISTA"] || '',
       parcela3x: row["PARCELA EM 3X (JUROS)"] || '',
@@ -89,16 +98,23 @@ export const getAvailableOptions = (data: Lens[], currentFilters: Record<string,
   });
   
   // Extrair opções únicas dos dados filtrados
-  const medidasArray = filteredData.map(lens => lens.medidas).filter(Boolean);
+  const medidasArray = filteredData.map(lens => lens.medidas).filter(Boolean) as string[];
+  const esfArray = filteredData.map(lens => lens.esf).filter(Boolean) as string[];
+  const cilArray = filteredData.map(lens => lens.cil).filter(Boolean) as string[];
   const espessurasArray = filteredData.map(lens => lens.espessura).filter(Boolean);
   
   // Remover duplicatas manualmente
   const uniqueMedidas = medidasArray.filter((value, index, self) => self.indexOf(value) === index);
+  const uniqueEsf = esfArray.filter((value, index, self) => self.indexOf(value) === index);
+  const uniqueCil = cilArray.filter((value, index, self) => self.indexOf(value) === index);
   const uniqueEspessuras = espessurasArray.filter((value, index, self) => self.indexOf(value) === index);
   
   return {
     medidas: uniqueMedidas.sort(),
+    esf: uniqueEsf.sort(),
+    cil: uniqueCil.sort(),
     espessuras: uniqueEspessuras.sort(),
-    count: filteredData.length
+    count: filteredData.length,
+    hasEsfCil: uniqueEsf.length > 0 || uniqueCil.length > 0
   };
 };
