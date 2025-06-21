@@ -25,9 +25,22 @@ export const LensCard = ({ lens, index }: LensCardProps) => {
         <CardContent className="p-6">
           <div className="mb-4">
             <h3 className="text-xl font-bold text-primary mb-2">{lens.nome}</h3>
-            <div className="grid grid-cols-2 gap-2 text-sm text-muted-foreground">
+            {lens.tipo && (
+              <div className="mb-2">
+                <span className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded-full">
+                  {lens.tipo}
+                </span>
+              </div>
+            )}
+            <div className="grid grid-cols-2 gap-2 text-sm text-muted-foreground mb-3">
               <span>Espessura: <span className="text-foreground">{lens.espessura}</span></span>
               <span>Graduação: <span className="text-foreground">{lens.medidas}</span></span>
+            </div>
+            <div className="flex flex-wrap gap-1 text-xs">
+              {lens.incolor && <span className="bg-green-100 text-green-800 px-2 py-1 rounded">Incolor</span>}
+              {lens.antireflexo && <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded">Antirreflexo</span>}
+              {lens.fotosensivel && <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Fotossensível</span>}
+              {lens.blueCut && <span className="bg-cyan-100 text-cyan-800 px-2 py-1 rounded">Blue Cut</span>}
             </div>
           </div>
           
