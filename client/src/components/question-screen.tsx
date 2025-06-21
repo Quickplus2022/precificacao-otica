@@ -89,7 +89,6 @@ export const QuestionScreen = ({ currentStep, progress, onAnswer, onBack, questi
               onClick={onBack}
               variant="ghost"
               className="text-muted-foreground hover:text-primary transition-colors duration-200"
-              disabled={answeredCount === 0}
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               {answeredCount === 0 ? 'Início' : 'Voltar'}

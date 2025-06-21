@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Upload, X, FileSpreadsheet, Download, Info } from 'lucide-react';
+import { Upload, X, FileSpreadsheet, Download, Info, Edit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { uploadExcelFile, saveToLocalStorage, validateExcelFile } from '@/lib/excel-parser';
 import { downloadTemplate, getTemplateInstructions } from '@/lib/excel-template';
+import { PriceEditor } from './price-editor';
 import { Lens } from '@shared/schema';
 
 interface UploadScreenProps {
@@ -16,6 +17,7 @@ interface UploadScreenProps {
 export const UploadScreen = ({ onCancel, onUploadSuccess }: UploadScreenProps) => {
   const [isDragOver, setIsDragOver] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [showEditor, setShowEditor] = useState(false);
   const { toast } = useToast();
 
   const handleFileUpload = async (file: File) => {
@@ -92,8 +94,20 @@ export const UploadScreen = ({ onCancel, onUploadSuccess }: UploadScreenProps) =
                 Baixe o modelo, atualize os preços e faça upload
               </p>
               
-              {/* Botões de Download e Instruções */}
+              {/* Opções de Atualização */}
               <div className="mb-6 space-y-3">
+                <Button
+                  onClick={() => setShowEditor(true)}
+                  className="w-full gradient-blue-primary text-white py-3 px-6 rounded-xl shadow-3d-sm glow-blue"
+                >
+                  <Edit className="w-4 h-4 mr-2" />
+                  Editar Preços Manualmente
+                </Button>
+                
+                <div className="text-center text-muted-foreground text-sm">
+                  ou
+                </div>
+                
                 <Button
                   onClick={() => {
                     downloadTemplate();
@@ -179,6 +193,16 @@ export const UploadScreen = ({ onCancel, onUploadSuccess }: UploadScreenProps) =
           </CardContent>
         </Card>
       </div>
+      
+      {showEditor && (
+        <PriceEditor 
+          onClose={() => setShowEditor(false)}
+          onSave={(lenses) => {
+            onUploadSuccess(lenses);
+            setShowEditor(false);
+          }}
+        />
+      )}
     </motion.div>
   );
 };

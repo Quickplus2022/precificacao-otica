@@ -43,10 +43,33 @@ export const WelcomeScreen = ({ onStart, onUpload }: WelcomeScreenProps) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="text-muted-foreground mb-8 text-lg leading-relaxed"
+          className="text-muted-foreground mb-6 text-lg leading-relaxed"
         >
           Vamos montar o óculos perfeito para você através de algumas perguntas simples
         </motion.p>
+
+        {/* Banner de instalação mobile */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+          className="mb-8 p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl text-center"
+        >
+          <Smartphone className="w-6 h-6 mx-auto mb-2 text-blue-400" />
+          <h3 className="text-sm font-semibold text-blue-300 mb-1">
+            Use sem internet no celular!
+          </h3>
+          <p className="text-xs text-blue-200/80 mb-3">
+            Instale este app no seu celular e use offline em qualquer lugar
+          </p>
+          <Button 
+            onClick={() => setShowOfflineGuide(true)}
+            size="sm"
+            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 text-xs"
+          >
+            Ver como instalar
+          </Button>
+        </motion.div>
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
