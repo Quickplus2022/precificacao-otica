@@ -43,6 +43,25 @@ export const useLensConfigurator = () => {
       });
 
       // Determinar próxima pergunta baseada no que já foi respondido
+      if (!('tipo' in answers)) {
+        // Verificar que valores de tipo existem nos dados atuais
+        const tipoValues = Array.from(new Set(currentFilteredData.map(lens => lens.tipo).filter(Boolean)));
+        const options = tipoValues.map(value => ({
+          label: value === "VISÃO SIMPLES" ? "VISÃO SIMPLES" :
+                 value === "LENTES SOLARES" ? "LENTES SOLARES" :
+                 value === "BIFOCAIS CR-39" ? "BIFOCAIS" :
+                 value === "PROGRESSIVAS ACABADAS" ? "PROGRESSIVAS" : value,
+          value: value
+        }));
+        
+        setQuestions([{
+          text: "Que tipo de visão?",
+          key: "tipo",
+          options: options
+        }]);
+        return;
+      }
+      
       if (!('incolor' in answers)) {
         // Verificar que valores de incolor existem nos dados atuais
         const incolorValues = Array.from(new Set(currentFilteredData.map(lens => lens.incolor)));
@@ -200,7 +219,7 @@ export const useLensConfigurator = () => {
   const filteredLenses = filterLenses(answers);
   
   // Calcular progresso baseado no número de respostas vs total de perguntas esperadas
-  const totalQuestions = 6; // incolor, antireflexo, fotosensivel, blueCut, medidas, espessura
+  const totalQuestions = 7; // tipo, incolor, antireflexo, fotosensivel, blueCut, medidas, espessura
   const answeredQuestions = Object.keys(answers).length;
   const progress = (answeredQuestions / totalQuestions) * 100;
   
