@@ -46,16 +46,19 @@ export const ResultsScreen = ({
           >
             <Card className="card-3d gradient-dark-blue rounded-xl shadow-3d-md border border-primary/30 mb-8">
               <CardContent className="p-6">
-                <h3 className="text-lg font-semibold text-primary mb-4">Sua Configuração</h3>
+                <h3 className="text-lg font-semibold text-primary mb-4">ESSAS SÃO AS LENTES DISPONÍVEIS PARA A CONFIGURAÇÃO</h3>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   {Object.entries(answers).map(([key, value]) => (
                     <div key={key}>
                       <span className="text-muted-foreground">{getQuestionLabel(key)}:</span>{' '}
                       <span className="text-primary font-medium">
-                        {typeof value === 'boolean' ? (value ? 'Sim' : 'Não') : value}
+                        {typeof value === 'boolean' ? (value ? 'SIM' : 'NÃO') : value}
                       </span>
                     </div>
                   ))}
+                </div>
+                <div className="mt-4 text-center">
+                  <p className="text-primary font-semibold">{filteredLenses.length} lente(s) encontrada(s)</p>
                 </div>
               </CardContent>
             </Card>

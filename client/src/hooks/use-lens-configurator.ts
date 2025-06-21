@@ -28,8 +28,8 @@ export const useLensConfigurator = () => {
     hasEsfCil: boolean;
   }>({ medidas: [], esf: [], cil: [], espessuras: [], count: 0, hasEsfCil: false });
 
-  // Perguntas base - serão atualizadas dinamicamente
-  const [questions, setQuestions] = useState<Question[]>([
+  // Perguntas fixas - apenas as dinâmicas serão atualizadas
+  const baseQuestions: Question[] = [
     {
       text: "É incolor?",
       key: "incolor",
@@ -63,7 +63,7 @@ export const useLensConfigurator = () => {
       ]
     },
     {
-      text: "Qual a graduação?",
+      text: "Em qual faixa está o grau?",
       key: "medidas",
       options: []
     },
@@ -72,111 +72,61 @@ export const useLensConfigurator = () => {
       key: "espessura",
       options: []
     }
-  ]);
+  ];
 
-  // Atualizar opções disponíveis quando os dados ou respostas mudarem
+  const [questions, setQuestions] = useState<Question[]>(baseQuestions);
+
+  // Atualizar opções disponíveis baseado nos filtros aplicados progressivamente
   useEffect(() => {
-    const updateAvailableOptions = async () => {
-      try {
-        const options = await getAvailableOptions(lensData, answers);
-        setAvailableOptions(options);
-        
-        // Atualizar as perguntas com as opções dinâmicas
-        setQuestions(prev => prev.map(question => {
-          if (question.key === 'medidas') {
-            // Se há ESF/CIL separados, dividir em duas perguntas
-            if (options.hasEsfCil) {
-              return {
-                ...question,
-                text: "Qual a esfera (ESF)?",
-                key: "esf",
-                options: options.esf.map((esf: string) => ({
-                  label: esf,
-                  value: esf
-                }))
-              };
-            } else {
-              // Usar MEDIDAS unificadas
-              return {
-                ...question,
-                options: options.medidas.map((medida: string) => ({
-                  label: medida,
-                  value: medida
-                }))
-              };
-            }
-          }
-          if (question.key === 'espessura') {
-            return {
-              ...question,
-              options: options.espessuras.map((espessura: string) => ({
-                label: espessura,
-                value: espessura
-              }))
-            };
-          }
-          return question;
-        }));
-
-        // Se há ESF/CIL, adicionar pergunta do cilindro
-        if (options.hasEsfCil && !questions.some(q => q.key === 'cil')) {
-          setQuestions(prev => {
-            const newQuestions = [...prev];
-            const medidasIndex = newQuestions.findIndex(q => q.key === 'medidas' || q.key === 'esf');
-            if (medidasIndex !== -1) {
-              newQuestions.splice(medidasIndex + 1, 0, {
-                text: "Qual o cilindro (CIL)?",
-                key: "cil",
-                options: options.cil.map((cil: string) => ({
-                  label: cil,
-                  value: cil
-                }))
-              });
-            }
-            return newQuestions;
-          });
+    const updateAvailableOptions = () => {
+      // Filtrar dados baseado nos filtros já respondidos
+      const filteredData = lensData.filter(lens => {
+        return Object.entries(answers).every(([key, value]) => {
+          if (value === undefined || value === null) return true;
+          // Aplicar apenas filtros já respondidos, mas não filtrar por espessura na seleção de medidas
+          if (key === 'espessura' && !answers.medidas) return true;
+          return lens[key as keyof Lens] === value;
+        });
+      });
+      
+      // Extrair opções únicas dos dados filtrados
+      const medidasArray = filteredData.map(lens => lens.medidas).filter(Boolean) as string[];
+      const espessurasArray = filteredData.map(lens => lens.espessura).filter(Boolean);
+      
+      const uniqueMedidas = medidasArray.filter((value, index, self) => self.indexOf(value) === index);
+      const uniqueEspessuras = espessurasArray.filter((value, index, self) => self.indexOf(value) === index);
+      
+      setAvailableOptions({
+        medidas: uniqueMedidas.sort(),
+        esf: [],
+        cil: [],
+        espessuras: uniqueEspessuras.sort(),
+        count: filteredData.length,
+        hasEsfCil: false
+      });
+      
+      // Atualizar as perguntas dinâmicas
+      setQuestions(prev => prev.map(question => {
+        if (question.key === 'medidas') {
+          return {
+            ...question,
+            options: uniqueMedidas.sort().map((medida: string) => ({
+              label: medida,
+              value: medida
+            }))
+          };
         }
-
-      } catch (error) {
-        console.error('Erro ao obter opções disponíveis:', error);
-        // Fallback para dados locais
-        const localOptions = getLocalAvailableOptions(lensData, answers);
-        setAvailableOptions(localOptions);
-        
-        setQuestions(prev => prev.map(question => {
-          if (question.key === 'medidas') {
-            if (localOptions.hasEsfCil) {
-              return {
-                ...question,
-                text: "Qual a esfera (ESF)?",
-                key: "esf",
-                options: localOptions.esf.map((esf: string) => ({
-                  label: esf,
-                  value: esf
-                }))
-              };
-            } else {
-              return {
-                ...question,
-                options: localOptions.medidas.map((medida: string) => ({
-                  label: medida,
-                  value: medida
-                }))
-              };
-            }
-          }
-          if (question.key === 'espessura') {
-            return {
-              ...question,
-              options: localOptions.espessuras.map((espessura: string) => ({
-                label: espessura,
-                value: espessura
-              }))
-            };
-          }
-          return question;
-        }));
-      }
+        if (question.key === 'espessura') {
+          return {
+            ...question,
+            options: uniqueEspessuras.sort().map((espessura: string) => ({
+              label: espessura,
+              value: espessura
+            }))
+          };
+        }
+        return question;
+      }));
     };
 
     updateAvailableOptions();
