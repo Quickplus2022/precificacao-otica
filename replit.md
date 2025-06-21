@@ -102,6 +102,15 @@ Preferred communication style: Simple, everyday language.
 
 # Recent Changes
 
+- June 21, 2025: **Implementação completa do tipo de visão e correções para iPhone**
+  - Sistema de tipo de visão implementado: VISÃO SIMPLES (26), LENTES SOLARES (8), BIFOCAIS CR-39 (1), PROGRESSIVAS ACABADAS (8)
+  - Botão "Ver Todas as Lentes" adicionado para consulta direta sem questionário
+  - Tipo de visão aparece como badge azul nos cards das lentes
+  - Características das lentes (incolor, antirreflexo, fotossensível, blue cut) mostradas como badges coloridos
+  - Correções específicas para iPhone: event listeners para touchstart/touchend com CSS otimizado para iOS
+  - Arquivos HTML standalone atualizados com todas as funcionalidades
+  - Sistema web e HTMLs agora totalmente sincronizados
+
 - June 21, 2025: **Sistema offline completo com deployment implementado**
   - PWA configurado para funcionamento offline no celular
   - Service Worker implementado para cache completo da aplicação

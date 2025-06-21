@@ -121,6 +121,10 @@
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             transform-style: preserve-3d;
             -webkit-appearance: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            -webkit-user-select: none;
+            user-select: none;
         }
         
         .btn::before {
@@ -565,7 +569,25 @@
                 const btn = document.createElement('button');
                 btn.className = 'btn';
                 btn.textContent = option.label;
-                btn.onclick = () => answerQuestion(option.value);
+                btn.style.cssText = '-webkit-tap-highlight-color: transparent; touch-action: manipulation;';
+                
+                // Event listeners para iOS
+                btn.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    this.style.transform = 'scale(0.95)';
+                }, { passive: false });
+                
+                btn.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    this.style.transform = 'scale(1)';
+                    setTimeout(() => answerQuestion(option.value), 100);
+                }, { passive: false });
+                
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    answerQuestion(option.value);
+                });
+                
                 optionsDiv.appendChild(btn);
             });
         }
@@ -628,6 +650,7 @@
 
                     card.innerHTML = `
                         <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">${lens.nome}</h3>
+                        ${lens.tipo ? `<div style="margin: 10px 0;"><span style="background: #dbeafe; color: #1e40af; padding: 6px 12px; border-radius: 12px; font-size: 12px; font-weight: bold;">${lens.tipo}</span></div>` : ''}
                         <div class="features">
                             ${features.map(f => `<span class="feature">${f}</span>`).join('')}
                         </div>
@@ -721,6 +744,7 @@
                 antireflexo: false,
                 fotosensivel: false,
                 blueCut: false,
+                tipo: "VISÃO SIMPLES",
                 medidas: "Esf. 0,00 / Cil. 0,00",
                 espessura: "1.50",
                 precoVista: "R$ 0,00",
@@ -760,8 +784,54 @@
             URL.revokeObjectURL(url);
         }
 
+        // Corrigir event handlers para iOS
+        function setupIOSButtons() {
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(btn => {
+                // Remover event handlers antigos
+                btn.onclick = null;
+                
+                // Adicionar event listeners específicos para iOS
+                btn.addEventListener('touchstart', function(e) {
+                    this.style.transform = 'scale(0.95)';
+                }, { passive: true });
+                
+                btn.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    this.style.transform = 'scale(1)';
+                    
+                    // Executar ação baseada no texto do botão
+                    const text = this.textContent.trim();
+                    setTimeout(() => {
+                        if (text.includes('Começar Configuração')) {
+                            startQuestions();
+                        } else if (text.includes('Ver Todas as Lentes')) {
+                            showAllLenses();
+                        } else if (text.includes('Editar Preços')) {
+                            showEditor();
+                        } else if (text.includes('Baixar App Offline')) {
+                            downloadStandalone();
+                        } else if (text.includes('Voltar')) {
+                            goBack();
+                        } else if (text.includes('Nova Busca')) {
+                            startOver();
+                        }
+                    }, 100);
+                }, { passive: false });
+                
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Backup para navegadores desktop
+                });
+            });
+        }
+
         // Inicializar
         loadData();
+        
+        // Configurar botões para iOS após carregar
+        document.addEventListener('DOMContentLoaded', setupIOSButtons);
+        setTimeout(setupIOSButtons, 500);
 
         // Prevenir zoom duplo-toque no iOS
         let lastTouchEnd = 0;
