@@ -1,6 +1,6 @@
 import { Lens } from "@shared/schema";
 
-// Dados extraídos da planilha real PRECIFICAÇÃO
+// Dados reais extraídos da planilha PRECIFICAÇÃO
 export const defaultLensData: Lens[] = [
   {
     id: 1,
@@ -15,7 +15,7 @@ export const defaultLensData: Lens[] = [
     espessura: "1.56",
     precoVista: "R$ 399,00",
     parcela3x: "R$ 159,60",
-    parcela6x: "R$ 89,78",
+    parcela6x: "R$ 89,77",
     parcela10x: "R$ 65,84"
   },
   {
@@ -69,34 +69,66 @@ export const defaultLensData: Lens[] = [
   {
     id: 5,
     nome: "LT CR-39",
-    incolor: true, // "SIM"
-    antireflexo: false, // "NÃO"
+    incolor: false, // "NÃO"
+    antireflexo: true, // "SIM"
     fotosensivel: false, // "NÃO"
-    blueCut: false, // "NÃO"
-    medidas: "Esf. -1,00 a +1,00 / Cil. -0,25 a -2,00",
+    blueCut: true, // "SIM"
+    medidas: "Esf. -4,00 a +4,00 / Cil. -2,25 a -4,00",
     esf: null,
     cil: null,
     espessura: "1.56",
-    precoVista: "R$ 89,78",
-    parcela3x: "R$ 35,91",
-    parcela6x: "R$ 20,17",
-    parcela10x: "R$ 14,81"
+    precoVista: "R$ 599,00",
+    parcela3x: "R$ 239,60",
+    parcela6x: "R$ 134,78",
+    parcela10x: "R$ 98,84"
   },
   {
     id: 6,
     nome: "LT CR-39",
-    incolor: true, // "SIM"
+    incolor: false, // "NÃO"
     antireflexo: true, // "SIM"
-    fotosensivel: false, // "NÃO"
+    fotosensivel: true, // "SIM"
     blueCut: true, // "SIM"
-    medidas: "Esf. -2,00 a +2,00 / Cil. -0,25 a -2,00",
+    medidas: "Esf. -4,00 a +2,00 / Cil. -0,25 a -2,00",
     esf: null,
     cil: null,
-    espessura: "1.67",
+    espessura: "1.56",
+    precoVista: "R$ 699,00",
+    parcela3x: "R$ 279,60",
+    parcela6x: "R$ 157,28",
+    parcela10x: "R$ 115,34"
+  },
+  {
+    id: 7,
+    nome: "LT CR-39",
+    incolor: false, // "NÃO"
+    antireflexo: true, // "SIM"
+    fotosensivel: true, // "SIM"
+    blueCut: true, // "SIM"
+    medidas: "Esf. -4,00 a +2,00 / Cil. -2,25 a -4,00",
+    esf: null,
+    cil: null,
+    espessura: "1.56",
     precoVista: "R$ 799,00",
     parcela3x: "R$ 319,60",
     parcela6x: "R$ 179,78",
     parcela10x: "R$ 131,84"
+  },
+  {
+    id: 8,
+    nome: "LT POLI",
+    incolor: true, // "SIM"
+    antireflexo: false, // "NÃO"
+    fotosensivel: false, // "NÃO"
+    blueCut: false, // "NÃO"
+    medidas: "Esf. -4,00 a +4,00 / Cil. -0,25 a -2,00",
+    esf: null,
+    cil: null,
+    espessura: "1.59",
+    precoVista: "R$ 499,00",
+    parcela3x: "R$ 199,60",
+    parcela6x: "R$ 112,27",
+    parcela10x: "R$ 82,34"
   }
 ];
 

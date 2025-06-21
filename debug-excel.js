@@ -24,9 +24,24 @@ if (fs.existsSync(filePath)) {
   console.log('\n=== TERCEIRA LINHA DE DADOS ===');
   console.log(data[3]);
   
-  console.log('\n=== PRIMEIRAS 5 LINHAS COMPLETAS ===');
-  for (let i = 0; i < Math.min(5, data.length); i++) {
-    console.log(`Linha ${i}:`, data[i]);
+  console.log('\n=== PRIMEIRAS 10 LINHAS DE DADOS FORMATADAS ===');
+  for (let i = 1; i <= Math.min(10, data.length - 1); i++) {
+    const row = data[i];
+    if (row && row.length > 22) {
+      console.log(`Linha ${i}:`);
+      console.log(`  NOME: ${row[4]}`);
+      console.log(`  INCOLOR: ${row[5]}`);
+      console.log(`  ANTIREFLEXO: ${row[6]}`);
+      console.log(`  FOTOSENSÍVEL: ${row[7]}`);
+      console.log(`  BLUE CUT: ${row[8]}`);
+      console.log(`  ESPESSURA: ${row[10]}`);
+      console.log(`  MEDIDAS: ${row[11]}`);
+      console.log(`  PREÇO A VISTA: ${row[13]}`);
+      console.log(`  PARCELA 3X: ${row[20]}`);
+      console.log(`  PARCELA 6X: ${row[21]}`);
+      console.log(`  PARCELA 10X: ${row[22]}`);
+      console.log('---');
+    }
   }
   
 } else {
