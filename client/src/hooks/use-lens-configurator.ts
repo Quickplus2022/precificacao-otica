@@ -31,118 +31,115 @@ export const useLensConfigurator = () => {
   // Sistema de perguntas dinâmico baseado na filtragem progressiva
   const [questions, setQuestions] = useState<Question[]>([]);
 
-  // Gerar perguntas dinamicamente baseado no progresso atual
+  // Gerar perguntas dinamicamente, sempre mostrando opções válidas baseado nos filtros atuais
   useEffect(() => {
-    const generateQuestions = () => {
-      const newQuestions: Question[] = [];
-      
-      // 1. É incolor? - sempre primeira pergunta
+    const generateCurrentQuestion = () => {
+      // Aplicar filtros atuais para ver que dados restam
+      const currentFilteredData = lensData.filter(lens => {
+        return Object.entries(answers).every(([key, value]) => {
+          if (value === undefined || value === null) return true;
+          return lens[key as keyof Lens] === value;
+        });
+      });
+
+      // Determinar próxima pergunta baseada no que já foi respondido
       if (!('incolor' in answers)) {
-        newQuestions.push({
+        // Verificar que valores de incolor existem nos dados atuais
+        const incolorValues = Array.from(new Set(currentFilteredData.map(lens => lens.incolor)));
+        const options = incolorValues.map(value => ({
+          label: value ? "SIM" : "NÃO",
+          value: value
+        }));
+        
+        setQuestions([{
           text: "É incolor?",
           key: "incolor",
-          options: [
-            { label: "SIM", value: true },
-            { label: "NÃO", value: false }
-          ]
-        });
-        setQuestions(newQuestions);
+          options: options
+        }]);
         return;
       }
       
-      // 2. Tem antirreflexo? - se incolor já foi respondida
       if (!('antireflexo' in answers)) {
-        newQuestions.push({
+        const antireflexoValues = Array.from(new Set(currentFilteredData.map(lens => lens.antireflexo)));
+        const options = antireflexoValues.map(value => ({
+          label: value ? "SIM" : "NÃO",
+          value: value
+        }));
+        
+        setQuestions([{
           text: "Tem antirreflexo?",
           key: "antireflexo",
-          options: [
-            { label: "SIM", value: true },
-            { label: "NÃO", value: false }
-          ]
-        });
-        setQuestions(newQuestions);
+          options: options
+        }]);
         return;
       }
       
-      // 3. É fotosensível? - se antirreflexo já foi respondida
       if (!('fotosensivel' in answers)) {
-        newQuestions.push({
+        const fotosensibleValues = Array.from(new Set(currentFilteredData.map(lens => lens.fotosensivel)));
+        const options = fotosensibleValues.map(value => ({
+          label: value ? "SIM" : "NÃO",
+          value: value
+        }));
+        
+        setQuestions([{
           text: "É fotosensível?",
           key: "fotosensivel",
-          options: [
-            { label: "SIM", value: true },
-            { label: "NÃO", value: false }
-          ]
-        });
-        setQuestions(newQuestions);
+          options: options
+        }]);
         return;
       }
       
-      // 4. Tem blue cut? - se fotosensível já foi respondida
       if (!('blueCut' in answers)) {
-        newQuestions.push({
+        const blueCutValues = Array.from(new Set(currentFilteredData.map(lens => lens.blueCut)));
+        const options = blueCutValues.map(value => ({
+          label: value ? "SIM" : "NÃO",
+          value: value
+        }));
+        
+        setQuestions([{
           text: "Tem blue cut?",
           key: "blueCut",
-          options: [
-            { label: "SIM", value: true },
-            { label: "NÃO", value: false }
-          ]
-        });
-        setQuestions(newQuestions);
+          options: options
+        }]);
         return;
       }
       
-      // 5. Graduação - filtrar baseado nas respostas anteriores
       if (!('medidas' in answers)) {
-        const filteredForMedidas = lensData.filter(lens => 
-          lens.incolor === answers.incolor &&
-          lens.antireflexo === answers.antireflexo &&
-          lens.fotosensivel === answers.fotosensivel &&
-          lens.blueCut === answers.blueCut
-        );
+        const medidasValues = Array.from(new Set(currentFilteredData.map(lens => lens.medidas).filter(Boolean)));
+        const options = medidasValues.map(value => ({
+          label: value as string,
+          value: value as string
+        }));
         
-        const medidasOptions = Array.from(new Set(filteredForMedidas.map(lens => lens.medidas).filter(Boolean)))
-          .sort()
-          .map(medida => ({ label: medida as string, value: medida as string }));
-        
-        newQuestions.push({
+        setQuestions([{
           text: "Em qual faixa está o grau?",
           key: "medidas",
-          options: medidasOptions
-        });
-        setQuestions(newQuestions);
+          options: options.sort((a, b) => a.label.localeCompare(b.label))
+        }]);
         return;
       }
       
-      // 6. Espessura - filtrar baseado em todas as respostas anteriores
       if (!('espessura' in answers)) {
-        const filteredForEspessura = lensData.filter(lens => 
-          lens.incolor === answers.incolor &&
-          lens.antireflexo === answers.antireflexo &&
-          lens.fotosensivel === answers.fotosensivel &&
-          lens.blueCut === answers.blueCut &&
-          lens.medidas === answers.medidas
-        );
+        const espessuraValues = Array.from(new Set(currentFilteredData.map(lens => lens.espessura).filter(Boolean)));
+        const options = espessuraValues.map(value => ({
+          label: value,
+          value: value
+        }));
         
-        const espessuraOptions = Array.from(new Set(filteredForEspessura.map(lens => lens.espessura).filter(Boolean)))
-          .sort()
-          .map(espessura => ({ label: espessura, value: espessura }));
-        
-        newQuestions.push({
+        setQuestions([{
           text: "Qual a espessura?",
           key: "espessura",
-          options: espessuraOptions
-        });
-        setQuestions(newQuestions);
+          options: options.sort((a, b) => a.label.localeCompare(b.label))
+        }]);
         return;
       }
       
-      // Se chegou aqui, todas as perguntas foram respondidas - ir para resultados
+      // Todas as perguntas respondidas
       setQuestions([]);
       setCurrentScreen('results');
     };
 
-    generateQuestions();
+    generateCurrentQuestion();
   }, [answers, lensData]);
 
 

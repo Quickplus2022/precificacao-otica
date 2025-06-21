@@ -1,6 +1,6 @@
 import { Lens } from "@shared/schema";
 
-// Dados baseados no exemplo do Power BI
+// Dados corretos baseados nas imagens do Power BI fornecidas pelo usuário
 export const defaultLensData: Lens[] = [
   {
     id: 1,
@@ -30,9 +30,9 @@ export const defaultLensData: Lens[] = [
     cil: null,
     espessura: "1.56",
     precoVista: "R$ 89,78",
-    parcela3x: "R$ 33,00",
-    parcela6x: "R$ 18,50",
-    parcela10x: "R$ 12,40"
+    parcela3x: "R$ 33,93",
+    parcela6x: "R$ 18,96",
+    parcela10x: "R$ 13,47"
   },
   {
     id: 3,
@@ -46,9 +46,9 @@ export const defaultLensData: Lens[] = [
     cil: null,
     espessura: "1.56",
     precoVista: "R$ 150,00",
-    parcela3x: "R$ 55,00",
-    parcela6x: "R$ 30,80",
-    parcela10x: "R$ 20,50"
+    parcela3x: "R$ 56,70",
+    parcela6x: "R$ 31,70",
+    parcela10x: "R$ 22,50"
   },
   {
     id: 4,
@@ -62,73 +62,9 @@ export const defaultLensData: Lens[] = [
     cil: null,
     espessura: "1.59",
     precoVista: "R$ 280,00",
-    parcela3x: "R$ 105,00",
-    parcela6x: "R$ 58,90",
-    parcela10x: "R$ 39,20"
-  },
-  {
-    id: 5,
-    nome: "LT CR-39",
-    incolor: false,
-    antireflexo: true,
-    fotosensivel: false,
-    blueCut: false,
-    medidas: "Esf. -2,00 a +3,00 / Cil. -2,25 a -4,00",
-    esf: null,
-    cil: null,
-    espessura: "1.59",
-    precoVista: "R$ 320,00",
-    parcela3x: "R$ 120,00",
-    parcela6x: "R$ 67,50",
-    parcela10x: "R$ 45,00"
-  },
-  {
-    id: 6,
-    nome: "LT CR-39",
-    incolor: true,
-    antireflexo: true,
-    fotosensivel: false,
-    blueCut: false,
-    medidas: "Esf. -10,00 a +7,00 / Cil. -4,00",
-    esf: null,
-    cil: null,
-    espessura: "1.61",
-    precoVista: "R$ 540,00",
-    parcela3x: "R$ 205,00",
-    parcela6x: "R$ 115,20",
-    parcela10x: "R$ 76,80"
-  },
-  {
-    id: 7,
-    nome: "LT CR-39",
-    incolor: false,
-    antireflexo: false,
-    fotosensivel: true,
-    blueCut: false,
-    medidas: "Esf. -1,00 a +1,00 / Cil. -0,25 a -2,00",
-    esf: null,
-    cil: null,
-    espessura: "1.50",
-    precoVista: "R$ 210,00",
-    parcela3x: "R$ 78,00",
-    parcela6x: "R$ 43,50",
-    parcela10x: "R$ 29,00"
-  },
-  {
-    id: 8,
-    nome: "LT CR-39",
-    incolor: true,
-    antireflexo: true,
-    fotosensivel: true,
-    blueCut: true,
-    medidas: "Esf. -4,00 a +4,00 / Cil. -0,25 a -2,00",
-    esf: null,
-    cil: null,
-    espessura: "1.67",
-    precoVista: "R$ 890,00",
-    parcela3x: "R$ 335,00",
-    parcela6x: "R$ 189,50",
-    parcela10x: "R$ 126,40"
+    parcela3x: "R$ 105,84",
+    parcela6x: "R$ 59,15",
+    parcela10x: "R$ 42,00"
   }
 ];
 
