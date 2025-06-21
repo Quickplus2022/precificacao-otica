@@ -102,6 +102,16 @@ Preferred communication style: Simple, everyday language.
 
 # Recent Changes
 
+- June 21, 2025: **Substituição completa dos dados com nova planilha PRECIFICAÇÃO_REAL**
+  - 100% dos dados atualizados com PRECIFICAÇÃO_REAL_1750530286686.xlsx (43 lentes)
+  - Distribuição atualizada: LENTES SOLARES (8), VISÃO SIMPLES (26), BIFOCAIS CR-39 (1), PROGRESSIVAS ACABADAS (8)
+  - Todos os preços, nomes e características atualizados conforme nova planilha
+  - Sistema web (client/src/lib/lens-data.ts) completamente atualizado
+  - Arquivos HTML standalone (standalone-app.html e standalone-app-iphone.html) atualizados
+  - Dados autênticos extraídos diretamente da planilha Excel fornecida
+  - Preços com formatação brasileira (R$ x,xx) e parcelas calculadas corretamente
+  - Revisão completa de todos os sistemas com dados reais da planilha
+
 - June 21, 2025: **Implementação completa do tipo de visão e correções para iPhone**
   - Sistema de tipo de visão implementado: VISÃO SIMPLES (26), LENTES SOLARES (8), BIFOCAIS CR-39 (1), PROGRESSIVAS ACABADAS (8)
   - Botão "Ver Todas as Lentes" adicionado para consulta direta sem questionário
