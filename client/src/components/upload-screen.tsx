@@ -116,7 +116,7 @@ export const UploadScreen = ({ onCancel, onUploadSuccess }: UploadScreenProps) =
                   <FileSpreadsheet className="w-12 h-12 text-primary mx-auto mb-4" />
                   <Button
                     onClick={() => document.getElementById('fileInput')?.click()}
-                    className="btn-3d gradient-golden text-white py-3 px-6 rounded-xl shadow-3d-sm mb-2"
+                    className="btn-3d gradient-blue-primary text-white py-3 px-6 rounded-xl shadow-3d-sm mb-2 glow-blue"
                     disabled={isUploading}
                   >
                     {isUploading ? (

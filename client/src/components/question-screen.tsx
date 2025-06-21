@@ -23,9 +23,9 @@ export const QuestionScreen = ({ currentStep, progress, onAnswer, onBack }: Ques
       className="min-h-screen flex flex-col gradient-dark"
     >
       {/* Progress Bar */}
-      <div className="w-full bg-gray-800 h-2">
+      <div className="w-full bg-muted h-3">
         <motion.div 
-          className="gradient-golden h-2 transition-all duration-500"
+          className="gradient-blue-primary h-3 transition-all duration-500 shadow-3d-sm"
           style={{ width: `${progress}%` }}
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
@@ -62,7 +62,7 @@ export const QuestionScreen = ({ currentStep, progress, onAnswer, onBack }: Ques
               >
                 <Button
                   onClick={() => onAnswer(option.value)}
-                  className="btn-3d w-full py-4 px-6 rounded-xl shadow-3d-md transition-all duration-300 text-left bg-card hover:bg-accent border border-border hover:border-primary/50"
+                  className="btn-3d w-full py-4 px-6 rounded-xl shadow-3d-md transition-all duration-300 text-left bg-card hover:bg-accent border border-border hover:border-primary hover:glow-blue"
                   variant="outline"
                 >
                   {option.label}

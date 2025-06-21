@@ -44,7 +44,7 @@ export const ResultsScreen = ({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="card-3d bg-card rounded-xl shadow-3d-md border border-primary/20 mb-8">
+            <Card className="card-3d gradient-dark-blue rounded-xl shadow-3d-md border border-primary/30 mb-8">
               <CardContent className="p-6">
                 <h3 className="text-lg font-semibold text-primary mb-4">Sua Configuração</h3>
                 <div className="grid grid-cols-2 gap-4 text-sm">
@@ -95,7 +95,7 @@ export const ResultsScreen = ({
           >
             <Button 
               onClick={onNewSearch}
-              className="btn-3d bg-accent hover:bg-accent/80 text-accent-foreground py-3 px-6 rounded-xl shadow-3d-md"
+              className="btn-3d bg-accent hover:bg-accent/80 text-accent-foreground py-3 px-6 rounded-xl shadow-3d-md hover:glow-blue"
               variant="outline"
             >
               <Search className="w-4 h-4 mr-2" />
@@ -103,7 +103,7 @@ export const ResultsScreen = ({
             </Button>
             <Button 
               onClick={onUpdatePrices}
-              className="btn-3d gradient-golden text-white py-3 px-6 rounded-xl shadow-3d-md"
+              className="btn-3d gradient-blue-primary text-white py-3 px-6 rounded-xl shadow-3d-md glow-blue"
             >
               <Upload className="w-4 h-4 mr-2" />
               Atualizar Preços
