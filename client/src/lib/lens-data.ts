@@ -188,12 +188,12 @@ export const questions = [
 
 export const getQuestionLabel = (key: string): string => {
   const labels: Record<string, string> = {
-    'incolor': 'Incolor',
-    'antireflexo': 'Antirreflexo',
-    'fotosensivel': 'Fotosensível',
-    'blueCut': 'Blue Cut',
-    'medidas': 'Graduação',
-    'espessura': 'Espessura'
+    'incolor': 'É INCOLOR',
+    'antireflexo': 'TEM ANTIREFLEXO',
+    'fotosensivel': 'É FOTOSENSÍVEL',
+    'blueCut': 'TEM BLUE CUT',
+    'medidas': 'EM QUAL FAIXA ESTÁ O GRAU',
+    'espessura': 'QUAL A ESPESSURA'
   };
   return labels[key] || key;
 };
