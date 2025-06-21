@@ -24,13 +24,20 @@ if (fs.existsSync(filePath)) {
   console.log('\n=== TERCEIRA LINHA DE DADOS ===');
   console.log(data[3]);
   
-  console.log('\n=== VERIFICANDO COMBINAÇÕES INCOLOR=SIM ===');
-  for (let i = 1; i < Math.min(20, data.length); i++) {
+  console.log('\n=== TODAS AS COMBINAÇÕES EXISTENTES ===');
+  const combinations = new Set();
+  for (let i = 1; i < data.length; i++) {
     const row = data[i];
-    if (row && row[5] === 'SIM') {
-      console.log(`Linha ${i}: INCOLOR=${row[5]}, ANTIREFLEXO=${row[6]}, FOTOSENSÍVEL=${row[7]}, BLUE_CUT=${row[8]}, ESP=${row[10]}, MEDIDAS=${row[11]}`);
+    if (row && row.length > 11) {
+      const combo = `INCOLOR=${row[5]}, ANTIREFLEXO=${row[6]}, FOTOSENSÍVEL=${row[7]}, BLUE_CUT=${row[8]}`;
+      combinations.add(combo);
     }
   }
+  
+  console.log('Combinações únicas encontradas na planilha:');
+  Array.from(combinations).sort().forEach((combo, index) => {
+    console.log(`${index + 1}. ${combo}`);
+  });
   
   console.log('\n=== PRIMEIRAS 10 LINHAS DE DADOS FORMATADAS ===');
   for (let i = 1; i <= Math.min(10, data.length - 1); i++) {

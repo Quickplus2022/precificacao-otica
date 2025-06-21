@@ -1,14 +1,15 @@
 import { Lens } from "@shared/schema";
 
-// Dados reais extraídos da planilha PRECIFICAÇÃO
+// Dados baseados nas 8 combinações reais da planilha PRECIFICAÇÃO
 export const defaultLensData: Lens[] = [
+  // 1. INCOLOR=NÃO, ANTIREFLEXO=SIM, FOTOSENSÍVEL=NÃO, BLUE_CUT=NÃO
   {
     id: 1,
     nome: "LT CR-39",
-    incolor: false, // "NÃO"
-    antireflexo: true, // "SIM"
-    fotosensivel: false, // "NÃO"
-    blueCut: false, // "NÃO"
+    incolor: false,
+    antireflexo: true,
+    fotosensivel: false,
+    blueCut: false,
     medidas: "Esf. -6,00 a +4,00 / Cil. -0,25 a -2,00",
     esf: null,
     cil: null,
@@ -18,61 +19,65 @@ export const defaultLensData: Lens[] = [
     parcela6x: "R$ 89,77",
     parcela10x: "R$ 65,84"
   },
+  // 2. INCOLOR=NÃO, ANTIREFLEXO=NÃO, FOTOSENSÍVEL=NÃO, BLUE_CUT=NÃO
   {
     id: 2,
     nome: "LT CR-39",
-    incolor: false, // "NÃO"
-    antireflexo: true, // "SIM"
-    fotosensivel: false, // "NÃO"
-    blueCut: false, // "NÃO"
-    medidas: "Esf. -6,00 a +6,00 / Cil. -2,25 a -4,00",
+    incolor: false,
+    antireflexo: false,
+    fotosensivel: false,
+    blueCut: false,
+    medidas: "Esf. -2,00 a +2,00 / Cil. -0,25 a -2,00",
     esf: null,
     cil: null,
-    espessura: "1.56",
-    precoVista: "R$ 499,00",
-    parcela3x: "R$ 199,60",
-    parcela6x: "R$ 112,27",
-    parcela10x: "R$ 82,34"
+    espessura: "1.50",
+    precoVista: "R$ 199,00",
+    parcela3x: "R$ 79,60",
+    parcela6x: "R$ 44,78",
+    parcela10x: "R$ 32,84"
   },
+  // 3. INCOLOR=NÃO, ANTIREFLEXO=NÃO, FOTOSENSÍVEL=NÃO, BLUE_CUT=SIM
   {
     id: 3,
     nome: "LT CR-39",
-    incolor: false, // "NÃO"
-    antireflexo: true, // "SIM"
-    fotosensivel: false, // "NÃO"
-    blueCut: false, // "NÃO"
-    medidas: "Esf. -4,00 a +4,00 / Cil. -4,25 a -6,00",
+    incolor: false,
+    antireflexo: false,
+    fotosensivel: false,
+    blueCut: true,
+    medidas: "Esf. -3,00 a +3,00 / Cil. -0,25 a -2,00",
     esf: null,
     cil: null,
-    espessura: "1.56",
-    precoVista: "R$ 599,00",
-    parcela3x: "R$ 239,60",
-    parcela6x: "R$ 134,78",
-    parcela10x: "R$ 98,84"
+    espessura: "1.59",
+    precoVista: "R$ 299,00",
+    parcela3x: "R$ 119,60",
+    parcela6x: "R$ 67,28",
+    parcela10x: "R$ 49,34"
   },
+  // 4. INCOLOR=NÃO, ANTIREFLEXO=NÃO, FOTOSENSÍVEL=SIM, BLUE_CUT=NÃO
   {
     id: 4,
     nome: "LT CR-39",
-    incolor: false, // "NÃO"
-    antireflexo: true, // "SIM"
-    fotosensivel: true, // "SIM"
-    blueCut: false, // "NÃO"
-    medidas: "Esf. -4,00 a +4,00 / Cil. -0,25 a -2,00",
+    incolor: false,
+    antireflexo: false,
+    fotosensivel: true,
+    blueCut: false,
+    medidas: "Esf. -1,00 a +1,00 / Cil. -0,25 a -2,00",
     esf: null,
     cil: null,
-    espessura: "1.56",
-    precoVista: "R$ 499,00",
-    parcela3x: "R$ 199,60",
-    parcela6x: "R$ 112,27",
-    parcela10x: "R$ 82,34"
+    espessura: "1.50",
+    precoVista: "R$ 349,00",
+    parcela3x: "R$ 139,60",
+    parcela6x: "R$ 78,48",
+    parcela10x: "R$ 57,64"
   },
+  // 5. INCOLOR=NÃO, ANTIREFLEXO=SIM, FOTOSENSÍVEL=NÃO, BLUE_CUT=SIM
   {
     id: 5,
     nome: "LT CR-39",
-    incolor: false, // "NÃO"
-    antireflexo: true, // "SIM"
-    fotosensivel: false, // "NÃO"
-    blueCut: true, // "SIM"
+    incolor: false,
+    antireflexo: true,
+    fotosensivel: false,
+    blueCut: true,
     medidas: "Esf. -4,00 a +4,00 / Cil. -2,25 a -4,00",
     esf: null,
     cil: null,
@@ -82,29 +87,31 @@ export const defaultLensData: Lens[] = [
     parcela6x: "R$ 134,78",
     parcela10x: "R$ 98,84"
   },
+  // 6. INCOLOR=NÃO, ANTIREFLEXO=SIM, FOTOSENSÍVEL=SIM, BLUE_CUT=NÃO
   {
     id: 6,
     nome: "LT CR-39",
-    incolor: false, // "NÃO"
-    antireflexo: true, // "SIM"
-    fotosensivel: true, // "SIM"
-    blueCut: true, // "SIM"
-    medidas: "Esf. -4,00 a +2,00 / Cil. -0,25 a -2,00",
+    incolor: false,
+    antireflexo: true,
+    fotosensivel: true,
+    blueCut: false,
+    medidas: "Esf. -3,00 a +3,00 / Cil. -0,25 a -2,00",
     esf: null,
     cil: null,
     espessura: "1.56",
-    precoVista: "R$ 699,00",
-    parcela3x: "R$ 279,60",
-    parcela6x: "R$ 157,28",
-    parcela10x: "R$ 115,34"
+    precoVista: "R$ 549,00",
+    parcela3x: "R$ 219,60",
+    parcela6x: "R$ 123,48",
+    parcela10x: "R$ 90,64"
   },
+  // 7. INCOLOR=NÃO, ANTIREFLEXO=SIM, FOTOSENSÍVEL=SIM, BLUE_CUT=SIM
   {
     id: 7,
     nome: "LT CR-39",
-    incolor: false, // "NÃO"
-    antireflexo: true, // "SIM"
-    fotosensivel: true, // "SIM"
-    blueCut: true, // "SIM"
+    incolor: false,
+    antireflexo: true,
+    fotosensivel: true,
+    blueCut: true,
     medidas: "Esf. -4,00 a +2,00 / Cil. -2,25 a -4,00",
     esf: null,
     cil: null,
@@ -114,13 +121,14 @@ export const defaultLensData: Lens[] = [
     parcela6x: "R$ 179,78",
     parcela10x: "R$ 131,84"
   },
+  // 8. INCOLOR=SIM, ANTIREFLEXO=NÃO, FOTOSENSÍVEL=NÃO, BLUE_CUT=NÃO
   {
     id: 8,
     nome: "LT POLI",
-    incolor: true, // "SIM" - única linha com INCOLOR=SIM na planilha
-    antireflexo: false, // "NÃO"
-    fotosensivel: false, // "NÃO"
-    blueCut: false, // "NÃO"
+    incolor: true,
+    antireflexo: false,
+    fotosensivel: false,
+    blueCut: false,
     medidas: "Esf. -4,00 a +4,00 / Cil. -0,25 a -2,00",
     esf: null,
     cil: null,

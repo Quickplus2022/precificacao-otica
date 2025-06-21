@@ -78,23 +78,23 @@ export const QuestionScreen = ({ currentStep, progress, onAnswer, onBack, questi
             ))}
           </motion.div>
           
-          {/* Back Button */}
-          {answeredCount > 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
+          {/* Back Button - Always visible */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="mt-8"
+          >
+            <Button
+              onClick={onBack}
+              variant="ghost"
+              className="text-muted-foreground hover:text-primary transition-colors duration-200"
+              disabled={answeredCount === 0}
             >
-              <Button
-                onClick={onBack}
-                variant="ghost"
-                className="mt-8 text-muted-foreground hover:text-primary transition-colors duration-200"
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Voltar
-              </Button>
-            </motion.div>
-          )}
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              {answeredCount === 0 ? 'Início' : 'Voltar'}
+            </Button>
+          </motion.div>
         </div>
       </div>
     </motion.div>
