@@ -8,6 +8,13 @@ interface LensCardProps {
 }
 
 export const LensCard = ({ lens, index }: LensCardProps) => {
+  // Função para calcular valor total das parcelas
+  const calculateTotal = (parcelaValue: string, numParcelas: number) => {
+    const value = parseFloat(parcelaValue.replace('R$', '').replace(',', '.').trim());
+    const total = value * numParcelas;
+    return `R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -36,21 +43,30 @@ export const LensCard = ({ lens, index }: LensCardProps) => {
             {/* Installment Options */}
             <div className="space-y-3">
               <div className="bg-card rounded-lg p-3 border border-border">
-                <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground text-sm">3x</span>
+                <div className="flex justify-between items-center mb-1">
+                  <span className="text-muted-foreground text-sm">3x de {lens.parcela3x}</span>
                   <span className="text-primary font-semibold">{lens.parcela3x}</span>
                 </div>
-              </div>
-              <div className="bg-card rounded-lg p-3 border border-border">
-                <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground text-sm">6x</span>
-                  <span className="text-primary font-semibold">{lens.parcela6x}</span>
+                <div className="text-xs text-muted-foreground text-right">
+                  Valor final: {calculateTotal(lens.parcela3x, 3)}
                 </div>
               </div>
               <div className="bg-card rounded-lg p-3 border border-border">
-                <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground text-sm">10x</span>
+                <div className="flex justify-between items-center mb-1">
+                  <span className="text-muted-foreground text-sm">6x de {lens.parcela6x}</span>
+                  <span className="text-primary font-semibold">{lens.parcela6x}</span>
+                </div>
+                <div className="text-xs text-muted-foreground text-right">
+                  Valor final: {calculateTotal(lens.parcela6x, 6)}
+                </div>
+              </div>
+              <div className="bg-card rounded-lg p-3 border border-border">
+                <div className="flex justify-between items-center mb-1">
+                  <span className="text-muted-foreground text-sm">10x de {lens.parcela10x}</span>
                   <span className="text-primary font-semibold">{lens.parcela10x}</span>
+                </div>
+                <div className="text-xs text-muted-foreground text-right">
+                  Valor final: {calculateTotal(lens.parcela10x, 10)}
                 </div>
               </div>
             </div>
