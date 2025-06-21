@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Eye } from 'lucide-react';
+import { Eye, Smartphone, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { OfflineGuide } from './offline-guide';
 
 interface WelcomeScreenProps {
   onStart: () => void;
@@ -8,6 +10,7 @@ interface WelcomeScreenProps {
 }
 
 export const WelcomeScreen = ({ onStart, onUpload }: WelcomeScreenProps) => {
+  const [showOfflineGuide, setShowOfflineGuide] = useState(false);
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -57,15 +60,30 @@ export const WelcomeScreen = ({ onStart, onUpload }: WelcomeScreenProps) => {
           >
             Começar
           </Button>
-          <Button 
-            onClick={onUpload}
-            variant="outline"
-            className="btn-3d border-primary hover:bg-primary/10 py-4 px-8 rounded-xl shadow-3d-md transition-all duration-300 text-lg"
-          >
-            📊 Atualizar Planilha
-          </Button>
+          <div className="flex gap-4 justify-center">
+            <Button 
+              onClick={onUpload}
+              variant="outline"
+              className="btn-3d border-primary hover:bg-primary/10 py-4 px-6 rounded-xl shadow-3d-md transition-all duration-300"
+            >
+              <Upload className="w-4 h-4 mr-2" />
+              Atualizar Planilha
+            </Button>
+            <Button 
+              onClick={() => setShowOfflineGuide(true)}
+              variant="outline"
+              className="btn-3d border-blue-500 hover:bg-blue-500/10 py-4 px-6 rounded-xl shadow-3d-md transition-all duration-300"
+            >
+              <Smartphone className="w-4 h-4 mr-2" />
+              Usar Offline
+            </Button>
+          </div>
         </motion.div>
       </div>
+      
+      {showOfflineGuide && (
+        <OfflineGuide onClose={() => setShowOfflineGuide(false)} />
+      )}
     </motion.div>
   );
 };

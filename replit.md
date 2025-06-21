@@ -102,6 +102,15 @@ Preferred communication style: Simple, everyday language.
 
 # Recent Changes
 
+- June 21, 2025: **Sistema offline completo implementado**
+  - PWA configurado para funcionamento offline no celular
+  - Service Worker implementado para cache completo da aplicação
+  - Template de planilha para download com instruções de preenchimento
+  - Guia de instalação offline para Android e iOS
+  - Upload funcionando offline após instalação no dispositivo
+  - Botões para download do modelo PRECIFICACAO.csv na tela de upload
+  - Sistema usa dados reais da planilha PRECIFICAÇÃO_REAL (43 lentes)
+
 - June 20, 2025: **Sistema de filtragem progressiva implementado**
   - Sistema agora filtra dinamicamente as opções baseado nas respostas do usuário
   - Suporte para colunas ESF/CIL separadas ou campo MEDIDAS unificado
