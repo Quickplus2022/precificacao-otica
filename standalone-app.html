@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1a365d">
+    <title>Configurador de Óculos - Standalone</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 500px; margin: 0 auto; }
+        .card { 
+            background: rgba(255,255,255,0.1); 
+            border-radius: 15px; 
+            padding: 25px; 
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn { 
+            background: linear-gradient(135deg, #3182ce, #2c5aa0);
+            color: white; 
+            border: none; 
+            padding: 15px 25px; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-size: 16px;
+            width: 100%;
+            margin: 10px 0;
+            box-shadow: 0 4px 15px rgba(49, 130, 206, 0.3);
+        }
+        .btn:hover { 
+            background: linear-gradient(135deg, #2c5aa0, #2a4d8a);
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #3182ce;
+            color: #3182ce;
+        }
+        .btn-outline:hover {
+            background: #3182ce;
+            color: white;
+        }
+        .hidden { display: none; }
+        .progress-bar {
+            background: rgba(255,255,255,0.1);
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #3182ce, #63b3ed);
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+        .lens-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #3182ce;
+        }
+        .price { 
+            font-size: 18px; 
+            font-weight: bold; 
+            color: #63b3ed; 
+            margin: 5px 0;
+        }
+        .features {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+        .feature {
+            background: rgba(49, 130, 206, 0.2);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+        .editor-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            margin: 5px 0;
+        }
+        .editor-input::placeholder { color: rgba(255,255,255,0.6); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Tela Inicial -->
+        <div id="welcome-screen" class="card">
+            <h1 style="text-align: center; font-size: 28px; margin-bottom: 20px;">👓 Configurador de Óculos</h1>
+            <p style="text-align: center; margin-bottom: 30px; opacity: 0.8;">
+                Encontre a lente perfeita através de algumas perguntas simples
+            </p>
+            <button class="btn" onclick="startQuestions()">Começar Configuração</button>
+            <button class="btn-outline btn" onclick="showEditor()">Editar Preços</button>
+            <button class="btn-outline btn" onclick="downloadStandalone()">Baixar App Offline</button>
+        </div>
+
+        <!-- Tela de Perguntas -->
+        <div id="question-screen" class="card hidden">
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+            </div>
+            <h2 id="question-text" style="text-align: center; margin-bottom: 30px;"></h2>
+            <div id="question-options"></div>
+            <button class="btn-outline btn" onclick="goBack()" style="margin-top: 20px;">← Voltar</button>
+        </div>
+
+        <!-- Tela de Resultados -->
+        <div id="results-screen" class="card hidden">
+            <h2 style="text-align: center; margin-bottom: 20px;">Lentes Encontradas</h2>
+            <div id="results-list"></div>
+            <button class="btn-outline btn" onclick="startOver()">Nova Busca</button>
+        </div>
+
+        <!-- Editor de Preços -->
+        <div id="editor-screen" class="card hidden">
+            <h2 style="margin-bottom: 20px;">Editor de Preços</h2>
+            <div id="lens-list"></div>
+            <button class="btn" onclick="addNewLens()">Adicionar Nova Lente</button>
+            <button class="btn-outline btn" onclick="backToWelcome()">Voltar</button>
+        </div>
+    </div>
+
+    <script>
+        // Dados das lentes (baseado na planilha real)
+        let lensData = [
+            {id: 1, nome: "LT CR-39", incolor: false, antireflexo: true, fotosensivel: false, blueCut: false, medidas: "Esf. -6,00 a +4,00 / Cil. -0,25 a -2,00", espessura: "1.56", precoVista: "R$ 399,00", parcela3x: "R$ 159,60", parcela6x: "R$ 89,77", parcela10x: "R$ 65,84"},
+            {id: 2, nome: "LT CR-39", incolor: false, antireflexo: true, fotosensivel: false, blueCut: false, medidas: "Esf. -6,00 a +6,00 / Cil. -2,25 a -4,00", espessura: "1.56", precoVista: "R$ 499,00", parcela3x: "R$ 199,60", parcela6x: "R$ 112,27", parcela10x: "R$ 82,34"},
+            {id: 3, nome: "LT POLI", incolor: true, antireflexo: false, fotosensivel: false, blueCut: false, medidas: "Esf. -4,00 a +4,00 / Cil. -0,25 a -2,00", espessura: "1.59", precoVista: "R$ 499,00", parcela3x: "R$ 199,60", parcela6x: "R$ 112,27", parcela10x: "R$ 82,34"},
+            {id: 4, nome: "LT CR-39", incolor: false, antireflexo: false, fotosensivel: false, blueCut: false, medidas: "Esf. -2,00 a +2,00 / Cil. -0,25 a -2,00", espessura: "1.50", precoVista: "R$ 199,00", parcela3x: "R$ 79,60", parcela6x: "R$ 44,78", parcela10x: "R$ 32,84"},
+            {id: 5, nome: "LT CR-39", incolor: false, antireflexo: false, fotosensivel: false, blueCut: true, medidas: "Esf. -3,00 a +3,00 / Cil. -0,25 a -2,00", espessura: "1.59", precoVista: "R$ 299,00", parcela3x: "R$ 119,60", parcela6x: "R$ 67,28", parcela10x: "R$ 49,34"}
+        ];
+
+        const questions = [
+            {text: "É incolor?", key: "incolor", options: [{label: "SIM", value: true}, {label: "NÃO", value: false}]},
+            {text: "Tem antirreflexo?", key: "antireflexo", options: [{label: "SIM", value: true}, {label: "NÃO", value: false}]},
+            {text: "É fotossensível?", key: "fotosensivel", options: [{label: "SIM", value: true}, {label: "NÃO", value: false}]},
+            {text: "Tem blue cut?", key: "blueCut", options: [{label: "SIM", value: true}, {label: "NÃO", value: false}]}
+        ];
+
+        let currentQuestion = 0;
+        let answers = {};
+
+        // Carregar dados salvos
+        function loadData() {
+            const saved = localStorage.getItem('lensData');
+            if (saved) lensData = JSON.parse(saved);
+        }
+
+        // Salvar dados
+        function saveData() {
+            localStorage.setItem('lensData', JSON.stringify(lensData));
+        }
+
+        // Mostrar tela
+        function showScreen(screenId) {
+            document.querySelectorAll('[id$="-screen"]').forEach(s => s.classList.add('hidden'));
+            document.getElementById(screenId).classList.remove('hidden');
+        }
+
+        // Iniciar perguntas
+        function startQuestions() {
+            currentQuestion = 0;
+            answers = {};
+            showScreen('question-screen');
+            showQuestion();
+        }
+
+        // Mostrar pergunta atual
+        function showQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('question-text').textContent = q.text;
+            
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+
+            const optionsDiv = document.getElementById('question-options');
+            optionsDiv.innerHTML = '';
+            
+            q.options.forEach(option => {
+                const btn = document.createElement('button');
+                btn.className = 'btn';
+                btn.textContent = option.label;
+                btn.onclick = () => answerQuestion(option.value);
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        // Responder pergunta
+        function answerQuestion(answer) {
+            const q = questions[currentQuestion];
+            answers[q.key] = answer;
+            
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        // Voltar pergunta
+        function goBack() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion();
+            } else {
+                showScreen('welcome-screen');
+            }
+        }
+
+        // Mostrar resultados
+        function showResults() {
+            const filtered = lensData.filter(lens => {
+                return Object.keys(answers).every(key => lens[key] === answers[key]);
+            });
+
+            const resultsDiv = document.getElementById('results-list');
+            resultsDiv.innerHTML = '';
+
+            if (filtered.length === 0) {
+                resultsDiv.innerHTML = '<p style="text-align: center;">Nenhuma lente encontrada com essas características.</p>';
+            } else {
+                filtered.forEach(lens => {
+                    const card = document.createElement('div');
+                    card.className = 'lens-card';
+                    
+                    const features = [];
+                    if (lens.incolor) features.push('Incolor');
+                    if (lens.antireflexo) features.push('Antirreflexo');
+                    if (lens.fotosensivel) features.push('Fotossensível');
+                    if (lens.blueCut) features.push('Blue Cut');
+
+                    card.innerHTML = `
+                        <h3>${lens.nome}</h3>
+                        <div class="features">
+                            ${features.map(f => `<span class="feature">${f}</span>`).join('')}
+                        </div>
+                        <p><small>${lens.medidas} - ${lens.espessura}</small></p>
+                        <div class="price">${lens.precoVista}</div>
+                        <p><small>3x: ${lens.parcela3x} | 6x: ${lens.parcela6x} | 10x: ${lens.parcela10x}</small></p>
+                    `;
+                    resultsDiv.appendChild(card);
+                });
+            }
+
+            showScreen('results-screen');
+        }
+
+        // Mostrar editor
+        function showEditor() {
+            renderLensList();
+            showScreen('editor-screen');
+        }
+
+        // Renderizar lista de lentes no editor
+        function renderLensList() {
+            const listDiv = document.getElementById('lens-list');
+            listDiv.innerHTML = '';
+
+            lensData.forEach((lens, index) => {
+                const card = document.createElement('div');
+                card.className = 'lens-card';
+                card.innerHTML = `
+                    <input class="editor-input" value="${lens.nome}" onchange="updateLens(${index}, 'nome', this.value)" placeholder="Nome">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0;">
+                        <label><input type="checkbox" ${lens.incolor ? 'checked' : ''} onchange="updateLens(${index}, 'incolor', this.checked)"> Incolor</label>
+                        <label><input type="checkbox" ${lens.antireflexo ? 'checked' : ''} onchange="updateLens(${index}, 'antireflexo', this.checked)"> Antirreflexo</label>
+                        <label><input type="checkbox" ${lens.fotosensivel ? 'checked' : ''} onchange="updateLens(${index}, 'fotosensivel', this.checked)"> Fotossensível</label>
+                        <label><input type="checkbox" ${lens.blueCut ? 'checked' : ''} onchange="updateLens(${index}, 'blueCut', this.checked)"> Blue Cut</label>
+                    </div>
+                    <input class="editor-input" value="${lens.precoVista}" onchange="updateLens(${index}, 'precoVista', this.value)" placeholder="Preço à Vista">
+                    <button class="btn-outline btn" onclick="removeLens(${index})" style="margin-top: 10px;">Remover</button>
+                `;
+                listDiv.appendChild(card);
+            });
+        }
+
+        // Atualizar lente
+        function updateLens(index, field, value) {
+            lensData[index][field] = value;
+            saveData();
+        }
+
+        // Remover lente
+        function removeLens(index) {
+            lensData.splice(index, 1);
+            saveData();
+            renderLensList();
+        }
+
+        // Adicionar nova lente
+        function addNewLens() {
+            const newId = Math.max(...lensData.map(l => l.id)) + 1;
+            lensData.push({
+                id: newId,
+                nome: "Nova Lente",
+                incolor: false,
+                antireflexo: false,
+                fotosensivel: false,
+                blueCut: false,
+                medidas: "Esf. 0,00 / Cil. 0,00",
+                espessura: "1.50",
+                precoVista: "R$ 0,00",
+                parcela3x: "R$ 0,00",
+                parcela6x: "R$ 0,00",
+                parcela10x: "R$ 0,00"
+            });
+            saveData();
+            renderLensList();
+        }
+
+        // Voltar para início
+        function startOver() {
+            showScreen('welcome-screen');
+        }
+
+        function backToWelcome() {
+            showScreen('welcome-screen');
+        }
+
+        // Download da versão standalone
+        function downloadStandalone() {
+            const content = document.documentElement.outerHTML;
+            const blob = new Blob([content], {type: 'text/html'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'configurador-oculos-offline.html';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Inicializar
+        loadData();
+    </script>
+</body>
+</html>
