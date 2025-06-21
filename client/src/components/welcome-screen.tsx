@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Eye, Smartphone, Upload } from 'lucide-react';
+import { Eye, Smartphone, Upload, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { OfflineGuide } from './offline-guide';
 
 interface WelcomeScreenProps {
   onStart: () => void;
   onUpload: () => void;
+  onViewAll: () => void;
 }
 
-export const WelcomeScreen = ({ onStart, onUpload }: WelcomeScreenProps) => {
+export const WelcomeScreen = ({ onStart, onUpload, onViewAll }: WelcomeScreenProps) => {
   const [showOfflineGuide, setShowOfflineGuide] = useState(false);
   return (
     <motion.div 
@@ -81,7 +82,15 @@ export const WelcomeScreen = ({ onStart, onUpload }: WelcomeScreenProps) => {
             onClick={onStart}
             className="btn-3d gradient-blue-primary text-white font-semibold py-4 px-8 rounded-xl shadow-3d-lg hover:shadow-3d-xl transition-all duration-300 text-lg glow-blue"
           >
-            Começar
+            Começar Configuração
+          </Button>
+          <Button 
+            onClick={onViewAll}
+            variant="secondary"
+            className="btn-3d bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-4 px-8 rounded-xl shadow-3d-lg hover:shadow-3d-xl transition-all duration-300 text-lg"
+          >
+            <Search className="w-4 h-4 mr-2" />
+            Ver Todas as Lentes
           </Button>
           <div className="flex gap-4 justify-center">
             <Button 

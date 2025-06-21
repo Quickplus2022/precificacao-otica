@@ -19,14 +19,15 @@ export default function Home() {
     goBack,
     resetApp,
     showUploadScreen,
-    hideUploadScreen
+    hideUploadScreen,
+    showAllLenses
   } = useLensConfigurator();
 
   return (
     <div className="min-h-screen">
       <AnimatePresence mode="wait">
         {currentScreen === 'welcome' && (
-          <WelcomeScreen key="welcome" onStart={startQuestionnaire} onUpload={showUploadScreen} />
+          <WelcomeScreen key="welcome" onStart={startQuestionnaire} onUpload={showUploadScreen} onViewAll={showAllLenses} />
         )}
         
         {currentScreen === 'question' && questions.length > 0 && (

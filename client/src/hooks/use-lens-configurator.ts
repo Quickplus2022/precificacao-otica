@@ -207,6 +207,11 @@ export const useLensConfigurator = () => {
     setCurrentScreen('results');
   }, []);
 
+  const showAllLenses = useCallback(() => {
+    setAnswers({}); // Limpar filtros para mostrar todas as lentes
+    setCurrentScreen('results');
+  }, []);
+
   const filterLenses = useCallback((filters: LensFilter): Lens[] => {
     return lensData.filter(lens => {
       return Object.entries(filters).every(([key, value]) => {
@@ -242,6 +247,7 @@ export const useLensConfigurator = () => {
     goBack,
     resetApp,
     showUploadScreen,
-    hideUploadScreen
+    hideUploadScreen,
+    showAllLenses
   };
 };
