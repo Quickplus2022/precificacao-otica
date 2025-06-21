@@ -57,16 +57,21 @@ export const uploadExcelFile = async (file: File): Promise<Lens[]> => {
   const formData = new FormData();
   formData.append('file', file);
   
-  const response = await apiRequest('/api/upload-excel', {
+  const response = await fetch('/api/upload-excel', {
     method: 'POST',
     body: formData,
   });
   
-  return response.data;
+  if (!response.ok) {
+    throw new Error('Erro ao fazer upload do arquivo');
+  }
+  
+  const result = await response.json();
+  return result.data;
 };
 
 export const getAvailableOptions = async (lensData: Lens[], currentFilters: Record<string, any>) => {
-  const response = await apiRequest('/api/available-options', {
+  const response = await fetch('/api/available-options', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -77,7 +82,11 @@ export const getAvailableOptions = async (lensData: Lens[], currentFilters: Reco
     }),
   });
   
-  return response;
+  if (!response.ok) {
+    throw new Error('Erro ao obter opções disponíveis');
+  }
+  
+  return await response.json();
 };
 
 export const validateExcelFile = (file: File): boolean => {

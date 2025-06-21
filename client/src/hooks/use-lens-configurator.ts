@@ -83,7 +83,7 @@ export const useLensConfigurator = () => {
           if (question.key === 'medidas') {
             return {
               ...question,
-              options: options.medidas.map(medida => ({
+              options: options.medidas.map((medida: string) => ({
                 label: medida,
                 value: medida
               }))
@@ -92,7 +92,7 @@ export const useLensConfigurator = () => {
           if (question.key === 'espessura') {
             return {
               ...question,
-              options: options.espessuras.map(espessura => ({
+              options: options.espessuras.map((espessura: string) => ({
                 label: espessura,
                 value: espessura
               }))
@@ -102,11 +102,58 @@ export const useLensConfigurator = () => {
         }));
       } catch (error) {
         console.error('Erro ao obter opções disponíveis:', error);
+        // Fallback para dados locais
+        const localOptions = getLocalAvailableOptions(lensData, answers);
+        setAvailableOptions(localOptions);
+        
+        setQuestions(prev => prev.map(question => {
+          if (question.key === 'medidas') {
+            return {
+              ...question,
+              options: localOptions.medidas.map((medida: string) => ({
+                label: medida,
+                value: medida
+              }))
+            };
+          }
+          if (question.key === 'espessura') {
+            return {
+              ...question,
+              options: localOptions.espessuras.map((espessura: string) => ({
+                label: espessura,
+                value: espessura
+              }))
+            };
+          }
+          return question;
+        }));
       }
     };
 
     updateAvailableOptions();
   }, [lensData, answers]);
+
+  // Função local para filtrar opções quando a API não estiver disponível
+  const getLocalAvailableOptions = (data: Lens[], currentFilters: LensFilter) => {
+    const filteredData = data.filter(lens => {
+      return Object.entries(currentFilters).every(([key, value]) => {
+        if (value === undefined || value === null) return true;
+        return lens[key as keyof Lens] === value;
+      });
+    });
+    
+    const medidasArray = filteredData.map(lens => lens.medidas).filter(Boolean);
+    const espessurasArray = filteredData.map(lens => lens.espessura).filter(Boolean);
+    
+    const uniqueMedidas = medidasArray.filter((value, index, self) => self.indexOf(value) === index);
+    const uniqueEspessuras = espessurasArray.filter((value, index, self) => self.indexOf(value) === index);
+    
+    return {
+      medidas: uniqueMedidas.sort(),
+      espessuras: uniqueEspessuras.sort(),
+      count: filteredData.length
+    };
+  };
 
   const startQuestionnaire = useCallback(() => {
     setCurrentStep(0);

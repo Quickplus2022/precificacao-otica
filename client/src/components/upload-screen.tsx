@@ -4,7 +4,7 @@ import { Upload, X, FileSpreadsheet } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { parseExcelToLenses, saveToLocalStorage, validateExcelFile } from '@/lib/excel-parser';
+import { uploadExcelFile, saveToLocalStorage, validateExcelFile } from '@/lib/excel-parser';
 import { Lens } from '@shared/schema';
 
 interface UploadScreenProps {
@@ -30,32 +30,24 @@ export const UploadScreen = ({ onCancel, onUploadSuccess }: UploadScreenProps) =
     setIsUploading(true);
 
     try {
-      // Note: In a real implementation, you would use a library like xlsx
-      // to parse the Excel file. For now, we'll simulate this functionality.
+      const parsedData = await uploadExcelFile(file);
       
-      const formData = new FormData();
-      formData.append('file', file);
-
-      // Simulate file processing
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      // In a real implementation, this would parse the actual Excel file
-      // For demo purposes, we'll just show success
+      // Salvar no localStorage
+      saveToLocalStorage(parsedData);
+      
       toast({
         title: "Arquivo carregado com sucesso",
-        description: "Os preços foram atualizados com base no novo arquivo.",
+        description: `${parsedData.length} lentes foram importadas com sucesso.`,
       });
 
-      // For now, we'll keep the existing data
-      // In real implementation: const parsedData = parseExcelToLenses(excelData);
-      // saveToLocalStorage(parsedData);
-      // onUploadSuccess(parsedData);
+      // Passar os dados para o componente pai
+      onUploadSuccess(parsedData);
       
-      onCancel(); // Go back to results
     } catch (error) {
+      console.error('Erro no upload:', error);
       toast({
         title: "Erro no upload",
-        description: "Ocorreu um erro ao processar o arquivo. Tente novamente.",
+        description: "Ocorreu um erro ao processar o arquivo. Verifique se o formato está correto.",
         variant: "destructive"
       });
     } finally {

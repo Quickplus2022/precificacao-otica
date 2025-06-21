@@ -21,7 +21,7 @@ export const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
           transition={{ delay: 0.2, type: "spring", stiffness: 260, damping: 20 }}
           className="mb-8"
         >
-          <div className="w-24 h-24 mx-auto rounded-full gradient-golden flex items-center justify-center shadow-3d-lg">
+          <div className="w-24 h-24 mx-auto rounded-full gradient-blue-primary flex items-center justify-center shadow-3d-xl glow-blue">
             <Eye className="w-12 h-12 text-white" />
           </div>
         </motion.div>
@@ -51,7 +51,7 @@ export const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
         >
           <Button 
             onClick={onStart}
-            className="btn-3d gradient-golden text-white font-semibold py-4 px-8 rounded-xl shadow-3d-lg hover:shadow-3d-xl transition-all duration-300 text-lg"
+            className="btn-3d gradient-blue-primary text-white font-semibold py-4 px-8 rounded-xl shadow-3d-lg hover:shadow-3d-xl transition-all duration-300 text-lg glow-blue"
           >
             Começar
           </Button>
