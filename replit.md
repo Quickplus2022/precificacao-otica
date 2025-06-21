@@ -100,6 +100,21 @@ This is a full-stack lens configurator application built with React, TypeScript,
 
 Preferred communication style: Simple, everyday language.
 
+# Recent Changes
+
+- June 20, 2025: **Sistema de filtragem progressiva implementado**
+  - Sistema agora filtra dinamicamente as opções baseado nas respostas do usuário
+  - Suporte para colunas ESF/CIL separadas ou campo MEDIDAS unificado
+  - Nova paleta de cores azul escura com efeitos 3D e sombreamentos aprimorados
+  - Upload de Excel funcionando com processamento real dos dados da planilha PRECIFICAÇÃO
+  - Interface responsiva com animações e efeitos de brilho azul
+
+- June 20, 2025: **Arquitetura atualizada**
+  - Schema de banco expandido para suportar esf/cil separados ou medidas unificadas
+  - Sistema de API para filtragem progressiva com fallback local
+  - Parser Excel atualizado para detectar automaticamente formato da planilha
+  - Paleta de cores migrada para tons azuis dominantes com acentos dourados
+
 # Changelog
 
 Changelog:

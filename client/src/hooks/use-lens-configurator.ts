@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Lens, LensFilter } from '@shared/schema';
 import { defaultLensData } from '@/lib/lens-data';
-import { loadFromLocalStorage, getAvailableOptions } from '@/lib/excel-parser';
+import { loadFromLocalStorage, getAvailableOptions, getLocalAvailableOptions } from '@/lib/excel-parser';
 
 export type Screen = 'welcome' | 'question' | 'results' | 'upload';
 
@@ -84,13 +84,27 @@ export const useLensConfigurator = () => {
         // Atualizar as perguntas com as opções dinâmicas
         setQuestions(prev => prev.map(question => {
           if (question.key === 'medidas') {
-            return {
-              ...question,
-              options: options.medidas.map((medida: string) => ({
-                label: medida,
-                value: medida
-              }))
-            };
+            // Se há ESF/CIL separados, dividir em duas perguntas
+            if (options.hasEsfCil) {
+              return {
+                ...question,
+                text: "Qual a esfera (ESF)?",
+                key: "esf",
+                options: options.esf.map((esf: string) => ({
+                  label: esf,
+                  value: esf
+                }))
+              };
+            } else {
+              // Usar MEDIDAS unificadas
+              return {
+                ...question,
+                options: options.medidas.map((medida: string) => ({
+                  label: medida,
+                  value: medida
+                }))
+              };
+            }
           }
           if (question.key === 'espessura') {
             return {
@@ -103,6 +117,26 @@ export const useLensConfigurator = () => {
           }
           return question;
         }));
+
+        // Se há ESF/CIL, adicionar pergunta do cilindro
+        if (options.hasEsfCil && !questions.some(q => q.key === 'cil')) {
+          setQuestions(prev => {
+            const newQuestions = [...prev];
+            const medidasIndex = newQuestions.findIndex(q => q.key === 'medidas' || q.key === 'esf');
+            if (medidasIndex !== -1) {
+              newQuestions.splice(medidasIndex + 1, 0, {
+                text: "Qual o cilindro (CIL)?",
+                key: "cil",
+                options: options.cil.map((cil: string) => ({
+                  label: cil,
+                  value: cil
+                }))
+              });
+            }
+            return newQuestions;
+          });
+        }
+
       } catch (error) {
         console.error('Erro ao obter opções disponíveis:', error);
         // Fallback para dados locais
@@ -111,13 +145,25 @@ export const useLensConfigurator = () => {
         
         setQuestions(prev => prev.map(question => {
           if (question.key === 'medidas') {
-            return {
-              ...question,
-              options: localOptions.medidas.map((medida: string) => ({
-                label: medida,
-                value: medida
-              }))
-            };
+            if (localOptions.hasEsfCil) {
+              return {
+                ...question,
+                text: "Qual a esfera (ESF)?",
+                key: "esf",
+                options: localOptions.esf.map((esf: string) => ({
+                  label: esf,
+                  value: esf
+                }))
+              };
+            } else {
+              return {
+                ...question,
+                options: localOptions.medidas.map((medida: string) => ({
+                  label: medida,
+                  value: medida
+                }))
+              };
+            }
           }
           if (question.key === 'espessura') {
             return {
@@ -136,27 +182,7 @@ export const useLensConfigurator = () => {
     updateAvailableOptions();
   }, [lensData, answers]);
 
-  // Função local para filtrar opções quando a API não estiver disponível
-  const getLocalAvailableOptions = (data: Lens[], currentFilters: LensFilter) => {
-    const filteredData = data.filter(lens => {
-      return Object.entries(currentFilters).every(([key, value]) => {
-        if (value === undefined || value === null) return true;
-        return lens[key as keyof Lens] === value;
-      });
-    });
-    
-    const medidasArray = filteredData.map(lens => lens.medidas).filter(Boolean);
-    const espessurasArray = filteredData.map(lens => lens.espessura).filter(Boolean);
-    
-    const uniqueMedidas = medidasArray.filter((value, index, self) => self.indexOf(value) === index);
-    const uniqueEspessuras = espessurasArray.filter((value, index, self) => self.indexOf(value) === index);
-    
-    return {
-      medidas: uniqueMedidas.sort(),
-      espessuras: uniqueEspessuras.sort(),
-      count: filteredData.length
-    };
-  };
+
 
   const startQuestionnaire = useCallback(() => {
     setCurrentStep(0);

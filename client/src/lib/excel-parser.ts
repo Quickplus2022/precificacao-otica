@@ -80,22 +80,55 @@ export const uploadExcelFile = async (file: File): Promise<Lens[]> => {
 };
 
 export const getAvailableOptions = async (lensData: Lens[], currentFilters: Record<string, any>) => {
-  const response = await fetch('/api/available-options', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      lensData,
-      currentFilters
-    }),
+  try {
+    const response = await fetch('/api/available-options', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        lensData,
+        currentFilters
+      }),
+    });
+    
+    if (!response.ok) {
+      throw new Error('Erro ao obter opções disponíveis');
+    }
+    
+    return await response.json();
+  } catch (error) {
+    // Fallback para processamento local
+    return getLocalAvailableOptions(lensData, currentFilters);
+  }
+};
+
+export const getLocalAvailableOptions = (data: Lens[], currentFilters: Record<string, any>) => {
+  const filteredData = data.filter(lens => {
+    return Object.entries(currentFilters).every(([key, value]) => {
+      if (value === undefined || value === null) return true;
+      return lens[key as keyof Lens] === value;
+    });
   });
   
-  if (!response.ok) {
-    throw new Error('Erro ao obter opções disponíveis');
-  }
+  const medidasArray = filteredData.map(lens => lens.medidas).filter(Boolean) as string[];
+  const esfArray = filteredData.map(lens => lens.esf).filter(Boolean) as string[];
+  const cilArray = filteredData.map(lens => lens.cil).filter(Boolean) as string[];
+  const espessurasArray = filteredData.map(lens => lens.espessura).filter(Boolean);
   
-  return await response.json();
+  const uniqueMedidas = medidasArray.filter((value, index, self) => self.indexOf(value) === index);
+  const uniqueEsf = esfArray.filter((value, index, self) => self.indexOf(value) === index);
+  const uniqueCil = cilArray.filter((value, index, self) => self.indexOf(value) === index);
+  const uniqueEspessuras = espessurasArray.filter((value, index, self) => self.indexOf(value) === index);
+  
+  return {
+    medidas: uniqueMedidas.sort(),
+    esf: uniqueEsf.sort(),
+    cil: uniqueCil.sort(),
+    espessuras: uniqueEspessuras.sort(),
+    count: filteredData.length,
+    hasEsfCil: uniqueEsf.length > 0 || uniqueCil.length > 0
+  };
 };
 
 export const validateExcelFile = (file: File): boolean => {
