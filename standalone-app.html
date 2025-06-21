@@ -284,6 +284,13 @@
             }
         }
 
+        // Função para calcular valor total das parcelas
+        function calculateTotal(parcelaValue, numParcelas) {
+            const value = parseFloat(parcelaValue.replace('R$', '').replace(',', '.').trim());
+            const total = value * numParcelas;
+            return `R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+
         // Mostrar resultados
         function showResults() {
             const filtered = lensData.filter(lens => {
@@ -306,6 +313,10 @@
                     if (lens.fotosensivel) features.push('Fotossensível');
                     if (lens.blueCut) features.push('Blue Cut');
 
+                    const total3x = calculateTotal(lens.parcela3x, 3);
+                    const total6x = calculateTotal(lens.parcela6x, 6);
+                    const total10x = calculateTotal(lens.parcela10x, 10);
+
                     card.innerHTML = `
                         <h3>${lens.nome}</h3>
                         <div class="features">
@@ -313,9 +324,22 @@
                         </div>
                         <p><small>${lens.medidas} - ${lens.espessura}</small></p>
                         <div class="price">${lens.precoVista}</div>
-                        <p><small>3x: ${lens.parcela3x} | 6x: ${lens.parcela6x} | 10x: ${lens.parcela10x}</small></p>
+                        <div style="margin: 15px 0; font-size: 14px;">
+                            <div style="margin: 8px 0; display: flex; justify-content: space-between; align-items: center;">
+                                <span>3x de ${lens.parcela3x}</span>
+                                <span style="color: #63b3ed; font-weight: bold;">Total: ${total3x}</span>
+                            </div>
+                            <div style="margin: 8px 0; display: flex; justify-content: space-between; align-items: center;">
+                                <span>6x de ${lens.parcela6x}</span>
+                                <span style="color: #63b3ed; font-weight: bold;">Total: ${total6x}</span>
+                            </div>
+                            <div style="margin: 8px 0; display: flex; justify-content: space-between; align-items: center;">
+                                <span>10x de ${lens.parcela10x}</span>
+                                <span style="color: #63b3ed; font-weight: bold;">Total: ${total10x}</span>
+                            </div>
+                        </div>
                         <p style="font-size: 11px; opacity: 0.7; margin-top: 8px; text-align: center;">
-                            💰 Valor final do óculos: <strong>${lens.precoVista}</strong>
+                            💰 Valor à vista: <strong>${lens.precoVista}</strong>
                         </p>
                     `;
                     resultsDiv.appendChild(card);
