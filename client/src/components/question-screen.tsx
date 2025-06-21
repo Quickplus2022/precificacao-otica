@@ -1,16 +1,22 @@
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { questions } from '@/lib/lens-data';
+
+interface Question {
+  text: string;
+  key: string;
+  options: { label: string; value: string | boolean }[];
+}
 
 interface QuestionScreenProps {
   currentStep: number;
   progress: number;
   onAnswer: (answer: string | boolean) => void;
   onBack: () => void;
+  questions: Question[];
 }
 
-export const QuestionScreen = ({ currentStep, progress, onAnswer, onBack }: QuestionScreenProps) => {
+export const QuestionScreen = ({ currentStep, progress, onAnswer, onBack, questions }: QuestionScreenProps) => {
   const question = questions[currentStep];
 
   if (!question) return null;

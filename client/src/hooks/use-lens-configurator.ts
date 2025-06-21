@@ -28,109 +28,121 @@ export const useLensConfigurator = () => {
     hasEsfCil: boolean;
   }>({ medidas: [], esf: [], cil: [], espessuras: [], count: 0, hasEsfCil: false });
 
-  // Perguntas fixas - apenas as dinâmicas serão atualizadas
-  const baseQuestions: Question[] = [
-    {
-      text: "É incolor?",
-      key: "incolor",
-      options: [
-        { label: "Sim", value: true },
-        { label: "Não", value: false }
-      ]
-    },
-    {
-      text: "Tem antirreflexo?",
-      key: "antireflexo",
-      options: [
-        { label: "Sim", value: true },
-        { label: "Não", value: false }
-      ]
-    },
-    {
-      text: "É fotosensível?",
-      key: "fotosensivel",
-      options: [
-        { label: "Sim", value: true },
-        { label: "Não", value: false }
-      ]
-    },
-    {
-      text: "Tem blue cut?",
-      key: "blueCut",
-      options: [
-        { label: "Sim", value: true },
-        { label: "Não", value: false }
-      ]
-    },
-    {
-      text: "Em qual faixa está o grau?",
-      key: "medidas",
-      options: []
-    },
-    {
-      text: "Qual a espessura?",
-      key: "espessura",
-      options: []
-    }
-  ];
+  // Sistema de perguntas dinâmico baseado na filtragem progressiva
+  const [questions, setQuestions] = useState<Question[]>([]);
 
-  const [questions, setQuestions] = useState<Question[]>(baseQuestions);
-
-  // Atualizar opções disponíveis baseado nos filtros aplicados progressivamente
+  // Gerar perguntas dinamicamente baseado no progresso atual
   useEffect(() => {
-    const updateAvailableOptions = () => {
-      // Filtrar dados baseado nos filtros já respondidos
-      const filteredData = lensData.filter(lens => {
-        return Object.entries(answers).every(([key, value]) => {
-          if (value === undefined || value === null) return true;
-          // Aplicar apenas filtros já respondidos, mas não filtrar por espessura na seleção de medidas
-          if (key === 'espessura' && !answers.medidas) return true;
-          return lens[key as keyof Lens] === value;
+    const generateQuestions = () => {
+      const newQuestions: Question[] = [];
+      
+      // 1. É incolor? - sempre primeira pergunta
+      if (!('incolor' in answers)) {
+        newQuestions.push({
+          text: "É incolor?",
+          key: "incolor",
+          options: [
+            { label: "SIM", value: true },
+            { label: "NÃO", value: false }
+          ]
         });
-      });
+        setQuestions(newQuestions);
+        return;
+      }
       
-      // Extrair opções únicas dos dados filtrados
-      const medidasArray = filteredData.map(lens => lens.medidas).filter(Boolean) as string[];
-      const espessurasArray = filteredData.map(lens => lens.espessura).filter(Boolean);
+      // 2. Tem antirreflexo? - se incolor já foi respondida
+      if (!('antireflexo' in answers)) {
+        newQuestions.push({
+          text: "Tem antirreflexo?",
+          key: "antireflexo",
+          options: [
+            { label: "SIM", value: true },
+            { label: "NÃO", value: false }
+          ]
+        });
+        setQuestions(newQuestions);
+        return;
+      }
       
-      const uniqueMedidas = medidasArray.filter((value, index, self) => self.indexOf(value) === index);
-      const uniqueEspessuras = espessurasArray.filter((value, index, self) => self.indexOf(value) === index);
+      // 3. É fotosensível? - se antirreflexo já foi respondida
+      if (!('fotosensivel' in answers)) {
+        newQuestions.push({
+          text: "É fotosensível?",
+          key: "fotosensivel",
+          options: [
+            { label: "SIM", value: true },
+            { label: "NÃO", value: false }
+          ]
+        });
+        setQuestions(newQuestions);
+        return;
+      }
       
-      setAvailableOptions({
-        medidas: uniqueMedidas.sort(),
-        esf: [],
-        cil: [],
-        espessuras: uniqueEspessuras.sort(),
-        count: filteredData.length,
-        hasEsfCil: false
-      });
+      // 4. Tem blue cut? - se fotosensível já foi respondida
+      if (!('blueCut' in answers)) {
+        newQuestions.push({
+          text: "Tem blue cut?",
+          key: "blueCut",
+          options: [
+            { label: "SIM", value: true },
+            { label: "NÃO", value: false }
+          ]
+        });
+        setQuestions(newQuestions);
+        return;
+      }
       
-      // Atualizar as perguntas dinâmicas
-      setQuestions(prev => prev.map(question => {
-        if (question.key === 'medidas') {
-          return {
-            ...question,
-            options: uniqueMedidas.sort().map((medida: string) => ({
-              label: medida,
-              value: medida
-            }))
-          };
-        }
-        if (question.key === 'espessura') {
-          return {
-            ...question,
-            options: uniqueEspessuras.sort().map((espessura: string) => ({
-              label: espessura,
-              value: espessura
-            }))
-          };
-        }
-        return question;
-      }));
+      // 5. Graduação - filtrar baseado nas respostas anteriores
+      if (!('medidas' in answers)) {
+        const filteredForMedidas = lensData.filter(lens => 
+          lens.incolor === answers.incolor &&
+          lens.antireflexo === answers.antireflexo &&
+          lens.fotosensivel === answers.fotosensivel &&
+          lens.blueCut === answers.blueCut
+        );
+        
+        const medidasOptions = Array.from(new Set(filteredForMedidas.map(lens => lens.medidas).filter(Boolean)))
+          .sort()
+          .map(medida => ({ label: medida as string, value: medida as string }));
+        
+        newQuestions.push({
+          text: "Em qual faixa está o grau?",
+          key: "medidas",
+          options: medidasOptions
+        });
+        setQuestions(newQuestions);
+        return;
+      }
+      
+      // 6. Espessura - filtrar baseado em todas as respostas anteriores
+      if (!('espessura' in answers)) {
+        const filteredForEspessura = lensData.filter(lens => 
+          lens.incolor === answers.incolor &&
+          lens.antireflexo === answers.antireflexo &&
+          lens.fotosensivel === answers.fotosensivel &&
+          lens.blueCut === answers.blueCut &&
+          lens.medidas === answers.medidas
+        );
+        
+        const espessuraOptions = Array.from(new Set(filteredForEspessura.map(lens => lens.espessura).filter(Boolean)))
+          .sort()
+          .map(espessura => ({ label: espessura, value: espessura }));
+        
+        newQuestions.push({
+          text: "Qual a espessura?",
+          key: "espessura",
+          options: espessuraOptions
+        });
+        setQuestions(newQuestions);
+        return;
+      }
+      
+      // Se chegou aqui, todas as perguntas foram respondidas
+      setQuestions([]);
     };
 
-    updateAvailableOptions();
-  }, [lensData, answers]);
+    generateQuestions();
+  }, [answers, lensData]);
 
 
 

@@ -12,6 +12,7 @@ export default function Home() {
     answers,
     filteredLenses,
     progress,
+    questions,
     setLensData,
     startQuestionnaire,
     selectAnswer,
