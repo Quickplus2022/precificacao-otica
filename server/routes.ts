@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
-import { readExcelFile, parseExcelDataToLenses, getAvailableOptions } from "./excel-reader";
+import { readExcelFile } from "./excel-reader";
 
 const upload = multer({ dest: 'uploads/' });
 
