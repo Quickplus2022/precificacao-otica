@@ -151,31 +151,28 @@ export const useLensConfigurator = () => {
   }, []);
 
   const selectAnswer = useCallback((answer: string | boolean) => {
-    const question = questions[currentStep];
+    const question = questions[0]; // Sempre a primeira pergunta da lista atual
     const newAnswers = { ...answers, [question.key]: answer };
     setAnswers(newAnswers);
     
-    if (currentStep < questions.length - 1) {
-      setCurrentStep(prev => prev + 1);
-    } else {
-      setCurrentScreen('results');
-    }
-  }, [currentStep, answers, questions]);
+    // Não mudar de tela aqui - deixar o useEffect gerar a próxima pergunta
+    // ou ir para resultados quando não houver mais perguntas
+  }, [answers, questions]);
 
   const goBack = useCallback(() => {
-    if (currentStep > 0) {
-      setCurrentStep(prev => prev - 1);
-      // Remover a resposta da pergunta atual quando voltar
-      const currentQuestion = questions[currentStep];
+    const answeredKeys = Object.keys(answers);
+    if (answeredKeys.length > 0) {
+      // Remover a última resposta
+      const lastKey = answeredKeys[answeredKeys.length - 1];
       setAnswers(prev => {
         const newAnswers = { ...prev };
-        delete newAnswers[currentQuestion.key];
+        delete newAnswers[lastKey];
         return newAnswers;
       });
     } else {
       setCurrentScreen('welcome');
     }
-  }, [currentStep, questions]);
+  }, [answers]);
 
   const resetApp = useCallback(() => {
     setCurrentStep(0);
